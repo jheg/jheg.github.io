@@ -7,3 +7,5 @@ categories: beginning
 
 This post will be about my background and how I stumbled upon the ruby language. My sister founds Makers.
 
+new note
+
