@@ -1,0 +1,12 @@
+# Site settings
+title: Jason Hegarty learning to code in ruby
+email: jason@jheg.co.uk
+description: "Documenting my path to learning the ruby language and ruby on rails from absolute beginner. "
+baseurl: ""
+url: "http://jheg.co.uk"
+highlighting: rouge
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+options: -w, --watch
