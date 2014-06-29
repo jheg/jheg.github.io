@@ -4,6 +4,7 @@ title:  "Learning ruby starts here"
 date:   2014-06-28 20:55:37
 categories: jekyll update
 excerpt: and I need a blog!
+comments: True
 ---
 
 A while ago I decided that I wanted to learn a programming language and after much procrastination I ended up at the gotealeaf online bootcamp for learning ruby and ruby on rails. 
