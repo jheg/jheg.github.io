@@ -36,16 +36,16 @@
 
 &lt;p&gt;The output looks something like this:&lt;/p&gt;
 
-&lt;hr /&gt;
-&lt;p&gt;demo: [“demo”, “dome”, “mode”]
-——–
-enno: [“none”, “neon”]
-——–
-deit: [“tied”, “diet”, “edit”, “tide”]
-——–
-eilv: [“evil”, “live”, “veil”, “vile”]
-——–
-flow: [“fowl”, “wolf”, “flow”]&lt;/p&gt;
+&lt;p&gt;——–&lt;br /&gt;
+demo: [“demo”, “dome”, “mode”]&lt;br /&gt;
+——–&lt;br /&gt;
+enno: [“none”, “neon”]&lt;br /&gt;
+——–&lt;br /&gt;
+deit: [“tied”, “diet”, “edit”, “tide”]&lt;br /&gt;
+——–&lt;br /&gt;
+eilv: [“evil”, “live”, “veil”, “vile”]&lt;br /&gt;
+——–&lt;br /&gt;
+flow: [“fowl”, “wolf”, “flow”]&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;I understood everything except the else conditional starting on line 25. Thanks to the friendly folk in the #ruby irc channel it was explained to me that:&lt;/p&gt;
 

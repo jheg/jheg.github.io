@@ -63,4 +63,4 @@ Maybe if I was in the classroom environment there would have been a pressure to 
 
 
 <h2>Thanks to:</h2>
-Each time I post I'll aim to thank anyone that has helped me along the way. Today workmad3 DefV & apeiros helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a coniditonal if else statement. 
+Each time I post I'll aim to thank anyone that has helped me along the way. Today workmad3 DefV & <a href="http://apeiros.me/">apeiros</a> helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a coniditonal if else statement. 
