@@ -32,12 +32,38 @@
 &lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;Basically the above code is taking the letters from each string in the ‘words’ array, sorting them in alphabtical order as an anagram and then adding them to a hash. For example the string ‘none’ is first split as ‘enno’ and then the program checks to see if the key ‘enno’ already exists and if it does adds the word ‘none’ to that key. If the key doesn’t exist it will create a new key using the key and then asign ‘none’ to the newly created key. phew!&lt;/p&gt;
+
+&lt;p&gt;The output looks something like this:&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;demo: [“demo”, “dome”, “mode”]
+——–
+enno: [“none”, “neon”]
+——–
+deit: [“tied”, “diet”, “edit”, “tide”]
+——–
+eilv: [“evil”, “live”, “veil”, “vile”]
+——–
+flow: [“fowl”, “wolf”, “flow”]&lt;/p&gt;
+
+&lt;p&gt;I understood everything except the else conditional starting on line 25. Thanks to the friendly folk in the #ruby irc channel it was explained to me that:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;looks to see if key already exists and if it doesn’t it will create it and then asign word to it.&lt;/p&gt;
+
+&lt;h2&gt;Taking time to understand before moving on&lt;/h2&gt;
+&lt;p&gt;Even though I started the day planning on getting stuck into lesson 1 I spent most of my day going over the pre-course stuff a second time to make sure I didn’t miss anything the first time. I also spent a good hour or two taking the time to understand that specific peice of code. &lt;/p&gt;
+
+&lt;p&gt;Maybe if I was in the classroom environment there would have been a pressure to move on to keep pace with the course and I might have felt that I was moving on before I was ready. On the other hand maybe one of the tutors would have sat with me until I understood fully the code and it would only have held me up for 20 minutes. &lt;/p&gt;
+
 &lt;h2&gt;Thanks to:&lt;/h2&gt;
 &lt;p&gt;Each time I post I’ll aim to thank anyone that has helped me along the way. Today workmad3 DefV &amp;amp; apeiros helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a coniditonal if else statement. &lt;/p&gt;
 </description>
         <pubDate>Wed, 09 Jul 2014 19:37:00 +0100</pubDate>
-        <link>http://jheg.co.uk/beginning/2014/07/09/how_long_will_learning_ruby_take/</link>
-        <guid isPermaLink="true">http://jheg.co.uk/beginning/2014/07/09/how_long_will_learning_ruby_take/</guid>
+        <link>http://jheg.co.uk/beginning/2014/07/09/how-long-will-learning-ruby-take/</link>
+        <guid isPermaLink="true">http://jheg.co.uk/beginning/2014/07/09/how-long-will-learning-ruby-take/</guid>
       </item>
     
       <item>
@@ -55,9 +81,9 @@
 &lt;p&gt;I’ve done the precourse and I start lesson 1 tomorrow.&lt;/p&gt;
 
 </description>
-        <pubDate>Sat, 28 Jun 2014 21:55:37 +0100</pubDate>
-        <link>http://jheg.co.uk/beginning/2014/06/28/why-ruby/</link>
-        <guid isPermaLink="true">http://jheg.co.uk/beginning/2014/06/28/why-ruby/</guid>
+        <pubDate>Tue, 08 Jul 2014 21:55:37 +0100</pubDate>
+        <link>http://jheg.co.uk/beginning/2014/07/08/why-ruby/</link>
+        <guid isPermaLink="true">http://jheg.co.uk/beginning/2014/07/08/why-ruby/</guid>
       </item>
     
       <item>

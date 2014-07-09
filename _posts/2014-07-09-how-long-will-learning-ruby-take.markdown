@@ -38,16 +38,16 @@ Basically the above code is taking the letters from each string in the 'words' a
 
 The output looks something like this:
 
---------
-demo: ["demo", "dome", "mode"]
---------
-enno: ["none", "neon"]
---------
-deit: ["tied", "diet", "edit", "tide"]
---------
-eilv: ["evil", "live", "veil", "vile"]
---------
-flow: ["fowl", "wolf", "flow"]
+--------<br />
+demo: ["demo", "dome", "mode"]<br />
+--------<br />
+enno: ["none", "neon"]<br />
+--------<br />
+deit: ["tied", "diet", "edit", "tide"]<br />
+--------<br />
+eilv: ["evil", "live", "veil", "vile"]<br />
+--------<br />
+flow: ["fowl", "wolf", "flow"]<br />
 
 I understood everything except the else conditional starting on line 25. Thanks to the friendly folk in the #ruby irc channel it was explained to me that:
 {% highlight ruby %}
