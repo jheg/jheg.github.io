@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Jason Hegarty learning to code in ruby</title>
+    <title>How long will it take to learn ruby?</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Documenting my path to learning the ruby language and ruby on rails from absolute beginner. ">
-    <link rel="canonical" href="http://jheg.co.uk/">
+    <link rel="canonical" href="http://jheg.co.uk/beginning/2014/07/09/how_long_will_learning_ruby_take/">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css">
@@ -54,40 +54,62 @@
 
     <div class="page-content">
       <div class="wrap">
-      <div class="home">
+      <div class="post">
 
-  <h1>Posts</h1>
-  <ul class="posts">
-    
-      <li>
-        <span class="post-date">Jul 9, 2014</span>
-        <a class="post-link" href="/beginning/2014/07/09/how_long_will_learning_ruby_take/">How long will it take to learn ruby?</a>
-        <p><p>The structure of the Tealeaf bootcamp course I’m taking is split into 3 modules each I’m told is progressively harder than the previous. I am on the first module ‘Introduction to Ruby and Web Development’ which is split into a pre course followed by 4 lessons.</p>
+  <header class="post-header">
+    <h1>How long will it take to learn ruby?</h1>
+    <p class="meta">Jul 9, 2014</p>
+  </header>
 
-</p>
-      </li>
-    
-      <li>
-        <span class="post-date">Jun 28, 2014</span>
-        <a class="post-link" href="/beginning/2014/06/28/why-ruby/">Why Ruby?</a>
-        <p><p>Up until recently the only languages I’d been exposed to were html, css, and the tiniest bit of javascript and php. The latter two there are mainly as a result of surrounding myself with friends that code for a living by way of hanging out in <a href="https://www.google.co.uk/search?q=what+is+irc&amp;oq=what+is+irc&amp;aqs=chrome..69i57j0l5.3205j0j8&amp;sourceid=chrome&amp;espv=210&amp;es_sm=119&amp;ie=UTF-8" title="What is irc?">irc</a>. </p>
+  <article class="post-content">
+  <p>The structure of the Tealeaf bootcamp course I’m taking is split into 3 modules each I’m told is progressively harder than the previous. I am on the first module ‘Introduction to Ruby and Web Development’ which is split into a pre course followed by 4 lessons.</p>
 
-</p>
-      </li>
-    
-      <li>
-        <span class="post-date">Jun 28, 2014</span>
-        <a class="post-link" href="/jekyll/update/2014/06/28/finding-my-blogging-platform/">Learning ruby starts here</a>
-        <p>and I need a blog!</p>
-      </li>
-    
-  </ul>
+<p>I had a bit of a moment today which made me think that although I’m not in the classroom environment a self paced online course may actually be a better option anyway. I ran into a problem where I was just struggling to understand a peice of code I wrote:</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="n">words</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;tied&quot;</span><span class="p">,</span> <span class="s2">&quot;evil&quot;</span><span class="p">,</span> <span class="s2">&quot;dome&quot;</span><span class="p">,</span>
+<span class="lineno"> 2</span>          <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span> <span class="s2">&quot;fowl&quot;</span><span class="p">,</span> <span class="s2">&quot;veil&quot;</span><span class="p">,</span> <span class="s2">&quot;wolf&quot;</span><span class="p">,</span> 
+<span class="lineno"> 3</span>          <span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;vile&quot;</span><span class="p">,</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span> <span class="s2">&quot;tide&quot;</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="s2">&quot;neon&quot;</span><span class="o">]</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="n">words</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">word</span><span class="o">|</span>
+<span class="lineno"> 8</span>   <span class="n">key</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sr">//</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span>
+<span class="lineno"> 9</span>   <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="lineno">10</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="n">word</span>
+<span class="lineno">11</span>   <span class="k">else</span>
+<span class="lineno">12</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">word</span><span class="o">]</span>
+<span class="lineno">13</span>   <span class="k">end</span>
+<span class="lineno">14</span> <span class="k">end</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="n">result</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span>
+<span class="lineno">17</span>   <span class="nb">puts</span> <span class="s2">&quot;--------&quot;</span>
+<span class="lineno">18</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">19</span> <span class="k">end</span></code></pre></div>
+
+<h2>Thanks to:</h2>
+<p>Each time I post I’ll aim to thank anyone that has helped me along the way. Today workmad3 DefV &amp; apeiros helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a coniditonal if else statement. </p>
+
+  </article>
+
 </div>
-
       </div>
     </div>
+    
+        <div id="disqus_thread" class="wrap"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'jheg'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
     
     <footer class="site-footer">
   <div class="wrap">
