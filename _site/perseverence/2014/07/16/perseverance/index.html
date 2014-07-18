@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>How long will it take to learn ruby?</title>
+    <title>Persevering with fixing my ruby program</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Documenting my path to learning the ruby language and ruby on rails from absolute beginner. ">
-    <link rel="canonical" href="http://jheg.co.uk/beginning/2014/07/09/how-long-will-learning-ruby-take/">
+    <link rel="canonical" href="http://jheg.co.uk/perseverence/2014/07/16/perseverance/">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css">
@@ -57,63 +57,68 @@
       <div class="post">
 
   <header class="post-header">
-    <h1>How long will it take to learn ruby?</h1>
-    <p class="meta">Jul 9, 2014</p>
+    <h1>Persevering with fixing my ruby program</h1>
+    <p class="meta">Jul 16, 2014</p>
   </header>
 
   <article class="post-content">
-  <p>The structure of the Tealeaf bootcamp course I’m taking is split into 3 modules each I’m told is progressively harder than the previous. I am on the first module ‘Introduction to Ruby and Web Development’ which is split into a pre course followed by 4 lessons.</p>
+  <p>I had the following exercise to complete as part of my pre course at Tealeaf:</p>
 
-<p>I had a bit of a moment today which made me think that although I’m not in the classroom environment a self paced online course may actually be a better option anyway. I ran into a problem where I was just struggling to understand a peice of code I wrote:</p>
+<p class="question">Create the data structure that you created in the previous example for Joe Smith using loops instead of assignment. Some helpful methods might be the Array shift and first method.</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="n">words</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;tied&quot;</span><span class="p">,</span> <span class="s2">&quot;evil&quot;</span><span class="p">,</span> <span class="s2">&quot;dome&quot;</span><span class="p">,</span>
-<span class="lineno"> 2</span>          <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span> <span class="s2">&quot;fowl&quot;</span><span class="p">,</span> <span class="s2">&quot;veil&quot;</span><span class="p">,</span> <span class="s2">&quot;wolf&quot;</span><span class="p">,</span> 
-<span class="lineno"> 3</span>          <span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;vile&quot;</span><span class="p">,</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span> <span class="s2">&quot;tide&quot;</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="s2">&quot;neon&quot;</span><span class="o">]</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="n">words</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">word</span><span class="o">|</span>
-<span class="lineno"> 8</span>   <span class="n">key</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sr">//</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span>
-<span class="lineno"> 9</span>   <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<span class="lineno">10</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="n">word</span>
-<span class="lineno">11</span>   <span class="k">else</span>
-<span class="lineno">12</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">word</span><span class="o">]</span>
-<span class="lineno">13</span>   <span class="k">end</span>
-<span class="lineno">14</span> <span class="k">end</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span> <span class="n">result</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span>
-<span class="lineno">17</span>   <span class="nb">puts</span> <span class="s2">&quot;--------&quot;</span>
-<span class="lineno">18</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="lineno">19</span> <span class="k">end</span></code></pre></div>
+<p>This was the solution:</p>
 
-<p>Basically the above code is taking the letters from each string in the ‘words’ array, sorting them in alphabtical order as an anagram and then adding them to a hash. For example the string ‘none’ is first split as ‘enno’ and then the program checks to see if the key ‘enno’ already exists and if it does adds the word ‘none’ to that key. If the key doesn’t exist it will create a new key using the key and then asign ‘none’ to the newly created key. phew!</p>
+<div class="highlight"><pre><code class="ruby"><span class="n">contact_data</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;joe@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;123 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span> 
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Joe Smith&quot;</span> <span class="o">=&gt;</span> <span class="p">{}}</span> 
+<span class="n">fields</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:email</span><span class="p">,</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">:phone</span><span class="o">]</span> 
 
-<p>The output looks something like this:</p>
+<span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="nb">hash</span><span class="o">|</span> 
+  <span class="n">fields</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span> 
+    <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">.</span><span class="n">shift</span> 
+  <span class="k">end</span> 
+<span class="k">end</span></code></pre></div>
 
-<p>——–<br />
-demo: [“demo”, “dome”, “mode”]<br />
-——–<br />
-enno: [“none”, “neon”]<br />
-——–<br />
-deit: [“tied”, “diet”, “edit”, “tide”]<br />
-——–<br />
-eilv: [“evil”, “live”, “veil”, “vile”]<br />
-——–<br />
-flow: [“fowl”, “wolf”, “flow”]<br /></p>
+<p>I wanted to know if this still worked if there was more than one pair in the hash and more elements in the contact_data array. </p>
 
-<p>I understood everything except the else conditional starting on line 25. Thanks to the friendly folk in the #ruby irc channel it was explained to me that:</p>
+<p>I changed the hash and array as follows:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">word</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="ruby"><span class="n">contacts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Joe Smith&quot;</span> <span class="o">=&gt;</span> <span class="p">{},</span> <span class="s2">&quot;Jason Hegarty&quot;</span> <span class="o">=&gt;</span> <span class="p">{},</span> <span class="s2">&quot;Vic Rance&quot;</span> <span class="o">=&gt;</span> <span class="p">{}}</span> 
+<span class="n">contact_data</span> <span class="o">=</span> <span class="o">[</span>
+ <span class="o">[</span><span class="s2">&quot;joe@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;123 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span><span class="p">,</span>
+ <span class="o">[</span><span class="s2">&quot;jason@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;124 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span><span class="p">,</span>
+ <span class="o">[</span><span class="s2">&quot;vic@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;125 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span>
+<span class="o">]</span></code></pre></div>
 
-<p>looks to see if key already exists and if it doesn’t it will create it and then asign word to it.</p>
+<p>but this didn’t work and just assigned nil to each of the keys in the 2nd and 3rd hash pair.</p>
 
-<h2>Taking time to understand before moving on</h2>
-<p>Even though I started the day planning on getting stuck into lesson 1 I spent most of my day going over the pre-course stuff a second time to make sure I didn’t miss anything the first time. I also spent a good hour or two taking the time to understand that specific peice of code. </p>
+<p>I tried this:</p>
 
-<p>Maybe if I was in the classroom environment there would have been a pressure to move on to keep pace with the course and I might have felt that I was moving on before I was ready. On the other hand maybe one of the tutors would have sat with me until I understood fully the code and it would only have held me up for 20 minutes. </p>
+<p>That works to an extent but only when there are two pairs in the hash so I needed to find another way. I needed to somehow check to see if the first array was empty and if it was delete it from the array before looping through once more. I headed on over to ruby docs and looked through the available array classes and re wrote my program:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span><span class="nb">hash</span><span class="o">|</span>
+    <span class="n">fields</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span>
+        <span class="k">if</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">empty?</span>
+          <span class="n">contact_data</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">contact_data</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+          <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">shift</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+          <span class="nb">puts</span> <span class="n">contact_data</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>  
+        <span class="k">else</span>
+          <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">shift</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+          <span class="nb">puts</span> <span class="n">contact_data</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">contacts</span></code></pre></div>
+
+<p>Problem fixed! The puts </p>
 
 <h2>Thanks to:</h2>
-<p>Each time I post I’ll aim to thank anyone that has helped me along the way. Today workmad3 DefV &amp; <a href="http://apeiros.me/">apeiros</a> helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a conditional if else statement. </p>
+<p>canton7, centrx, jhass, apeiros in the ruby channel on irc &amp; gustavo in the campfire chat room at tealeaf.</p>
+
 
   </article>
 
