@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Persevering with fixing my ruby program"
+title:  "Perseverence"
 date:   2014-07-16 14:37
 categories: perseverence
 comments: true
