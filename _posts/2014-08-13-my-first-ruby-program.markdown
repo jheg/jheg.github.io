@@ -217,7 +217,7 @@ puts "Good Bye o/"
 {% endhighlight %}
 
 <h2>Thanks to:</h2>
-Brandon who is one of the immensely helpful teaching assistants at Tealeaf for checking my code, suggesting little improvements and assuring me the different solutions doesn't always mean a better solution and to Vic for checking my grammar!
+<a href="http://blog.brandon-conway.com">Brandon</a> who is one of the immensely helpful teaching assistants at Tealeaf for checking my code, suggesting little improvements and assuring me the different solutions doesn't always mean a better solution and to Vic for checking my grammar!
 
 
 
