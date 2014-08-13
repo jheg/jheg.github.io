@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Persevering with fixing my ruby program</title>
+    <title>Perseverence</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Documenting my path to learning the ruby language and ruby on rails from absolute beginner. ">
     <link rel="canonical" href="http://jheg.co.uk/perseverence/2014/07/16/perseverance/">
@@ -57,7 +57,7 @@
       <div class="post">
 
   <header class="post-header">
-    <h1>Persevering with fixing my ruby program</h1>
+    <h1>Perseverence</h1>
     <p class="meta">Jul 16, 2014</p>
   </header>
 
@@ -91,9 +91,7 @@
 
 <p>but this didn’t work and just assigned nil to each of the keys in the 2nd and 3rd hash pair.</p>
 
-<p>I tried this:</p>
-
-<p>That works to an extent but only when there are two pairs in the hash so I needed to find another way. I needed to somehow check to see if the first array was empty and if it was delete it from the array before looping through once more. I headed on over to ruby docs and looked through the available array classes and re wrote my program:</p>
+<p>I tried another way but it only worked when there are two pairs in the hash so I needed to find another way. I needed to somehow check to see if the first array was empty and if it was delete it from the array before looping through once more. I headed on over to ruby docs and looked through the available array classes and re wrote my program:</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span><span class="nb">hash</span><span class="o">|</span>
     <span class="n">fields</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span>
@@ -114,10 +112,22 @@
 
 <span class="nb">puts</span> <span class="n">contacts</span></code></pre></div>
 
-<p>Problem fixed! The puts </p>
+<p>Problem fixed! The puts were only present for the purpose of me checking the state of contact_data after each iteration.</p>
+
+<p>I also posted this in the course forum and Chris posted a leaner solution and giving me a sharp reminder there is much to learn in becoming proficient in ruby:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="nb">hash</span><span class="o">|</span>
+  <span class="n">fields</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+    <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="n">counter</span><span class="o">][</span><span class="n">idx</span><span class="o">]</span>
+  <span class="k">end</span>
+  <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">contacts</span></code></pre></div>
 
 <h2>Thanks to:</h2>
-<p>canton7, centrx, jhass, apeiros in the ruby channel on irc &amp; gustavo in the campfire chat room at tealeaf.</p>
+<p>canton7, centrx, jhass, apeiros in the ruby channel on irc, gustavo in the campfire chat room at tealeaf and Chris on the course forum. </p>
 
 
   </article>
