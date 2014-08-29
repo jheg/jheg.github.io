@@ -7,7 +7,7 @@ comments: true
 excerpt: Assignment - To build the game Tic Tac Toe.
 ---
 
-Following on from the assignment to build the paper rock scissors game I was tasked with trying to build the game Tic Tac Toe. As with the previous mini project this was to built from scratch from what I learnt from the course so far. 
+Following on from the assignment to build the paper rock scissors game I was tasked with trying to build the game Tic Tac Toe. As with the previous mini project this was to be built from scratch from what I learnt from the course so far. 
 
 Game Logic:
 
@@ -80,7 +80,7 @@ def available_squares(squares)
 end
 {% endhighlight %}
 
-What is happening here is that we will be able to pass into this method our board_squares hash and select from it key value pairs where pair equals " " returning the key into an array for use in our program. The squares parameter I orignially named 'b' but as correctly pointed out by Brandon at Tealeaf Ruby is an expressive language and so you should be afraid to use more descriptive naming conventions so they make sense when I or someone else looks at the code in six months time. It is also considered best practice that if you are not using an argument in the code block then it should be written as a single underscore so it indicates it is not used.
+What's happening here is that we will be able to pass into this method our board_squares hash and select from it key value pairs where pair equals " " returning the key into an array for use in our program. The squares parameter I orignially named 'b' but as correctly pointed out by Brandon at Tealeaf, Ruby is an expressive language and so you shouldn't be afraid to use more descriptive naming conventions so they still make sense in the future. It is also considered best practice that if you are not using an argument in the code block then it should be written as a single underscore so it indicates it is not used.
 
 <h2>Step 4: Creating an array to store player1 and player2</h2>
 
@@ -93,7 +93,7 @@ players = ["player1", "player2"]
 
 <h2>Step 5: Drawing the board</h2>
 
-Before I started this assignment I spent days thinking about how I could draw the board and dynamically update it after each iteration of the game loop. I had to check part of the solution video for this part as I couln't quite grasp how this was going to work. It really was quite simple once I reviewed the video though simply drawing the board using puts and using string interpolation to store the current status of the board_squares hash. All of this is stored in a method called draw_board.
+Before I started this assignment I spent days thinking about how I could draw the board and dynamically update it after each iteration of the game loop. I had to check part of the solution video for this as I couldn't quite grasp how this was going to work. It was simple once I reviewed the video though. Draw the board using puts and using string interpolation to store the current status of the board_squares hash. All of this is stored in a method called draw_board.
 
 {% highlight ruby linenos %}
 # draw the board 
@@ -111,9 +111,9 @@ I'm certain I could have drawn a much more elaborate board but this works well e
 
 <h2>Step 6: Writing the start of the methods where player or computer picks a square</h2>
 
-Here I created two methods, one for each player. The first method is for player and starts with a conditional check that we will use to see if there are any empty squares in our board_squares hash. If this evaluates true the program continues to line 4 and asks the player to choose a square. I used string interpolation to pass in the available_squares method that returns an array of the squares left for selection helping the player make their choice. Using gets.chomp.to_i We then store the players answer into the variable 'i'. The to_i converts from string to interger. We then run an if else statement to check if the players choice is available for selection and if it then assigns the square with an 'x'. If the conditional is false the program runs again and asks the player to choose a square. Once finished the updated board is displayed.
+Here I created two methods, one for each player. The first method is for player and starts with a conditional check that we will use to see if there are any empty squares in our board_squares hash. If this evaluates true the program continues to line 4 and asks the player to choose a square. I used string interpolation to pass in the available_squares method that returns an array of the squares left for selection helping the player make their choice. Using gets.chomp.to_i We then store the players answer into the variable 'i'. The to_i converts from string to integer. We then run an if else statement to check if the players choice is available for selection and if it is assigns the square with an 'x'. If the conditional is false the program runs again and asks the player to choose a square. Once finished the updated board is displayed.
 
-The second method handles the computers go. First off a message informing the player the computer is taking a turn. Next I used 'sleep 0.5' to give the feeling of a more natural pace to the game rather than the everything happening instantly. The computer then selects a random available square using the .sample method and stores it in the 'i' variable. We the pass this variable into the board_squares hash and assign it an 'o'. Finally we display the updated board.
+The second method handles the computers go. First off a message informing the player the computer is taking a turn. Next I used 'sleep 0.5' to give the feeling of a more natural pace. The computer then selects a random available square using the .sample method and stores it in the 'i' variable. We the pass this variable into the board_squares hash and assign it an 'o'. Finally we display the updated board.
 
 {% highlight ruby linenos %}
 # player/computer picks square methods
