@@ -45,17 +45,17 @@ end
 
 # check for winner method
 def check_for_winner(line, squares)
-  if line.find {|l| l.all? {|k| squares[k] == "x"} }
+  if line.find {|l| l.all? {|k| squares[k] == X} }
     puts "player WINS!!!"
     true
-  elsif line.find {|l| l.all? {|k| squares[k] == "o"} }
+  elsif line.find {|l| l.all? {|k| squares[k] == O} }
     puts "computer wins :("
     true
   end
 end
 
 # checks to see if two in a row
-def two_in_a_row?(hsh, mrkr)
+def two_in_a_row(hsh, mrkr)
   if hsh.values.count(mrkr) == 2
     hsh.select{|k,v| v == ' '}.keys.first
   else
@@ -70,7 +70,7 @@ def player1(squares)
     puts "Choose an available square from #{available_squares(squares)}"
     i = gets.chomp.to_i
     if available_squares(squares).include?(i)
-      squares[i] = "x"
+      squares[i] = X
     else
       player1(squares)
     end
@@ -88,9 +88,9 @@ def player2(line, squares)
   
   # attack 
   WINNING_LINES.each do |l|
-    defend_this_square = two_in_a_row?({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
+    defend_this_square = two_in_a_row({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
     if defend_this_square
-      squares[defend_this_square] = 'o'
+      squares[defend_this_square] = O
       attacked = true
       break
     end
@@ -99,14 +99,14 @@ def player2(line, squares)
   # defend  
   if attacked == false
     WINNING_LINES.each do |l|
-      defend_this_square = two_in_a_row?({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, X)
+      defend_this_square = two_in_a_row({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, X)
       if defend_this_square
-        squares[defend_this_square] = 'o'
+        squares[defend_this_square] = O
         break
       end 
     end 
   end
-  squares[available_squares(squares).sample] = "o" unless defend_this_square
+  squares[available_squares(squares).sample] = O unless defend_this_square
   draw_board(squares)
 end
 
@@ -172,7 +172,7 @@ def player2(squares)
   puts "Computer chooses a square"
   sleep 0.5
   i = available_squares(squares).sample
-  squares[i] = "o"
+  squares[i] = O
   draw_board(squares)
 end
 {% endhighlight %}
@@ -210,9 +210,9 @@ Now we want one of three things will happen on the computers turn:
 {% highlight ruby linenos %}
 # attack 
 WINNING_LINES.each do |l|
-  defend_this_square = two_in_a_row?({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
+  defend_this_square = two_in_a_row({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
   if defend_this_square
-    squares[defend_this_square] = 'o'
+    squares[defend_this_square] = O
     attacked = true
     break
   end
@@ -237,9 +237,9 @@ If defend_this_square had not have evaluated to true on any of the iterations th
 # defend  
 if attacked == false
   WINNING_LINES.each do |l|
-    defend_this_square = two_in_a_row?({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, X)
+    defend_this_square = two_in_a_row({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, X)
     if defend_this_square
-      squares[defend_this_square] = 'o'
+      squares[defend_this_square] = O
       break
     end 
   end 
@@ -251,10 +251,10 @@ So here we can see that if the computer had attacked the attacked variable would
 Finally if neither of these are carried out the computer chooses a random availble square:
 
 {% highlight ruby %}
-squares[available_squares(squares).sample] = "o" unless defend_this_square
+squares[available_squares(squares).sample] = O unless defend_this_square
 {% endhighlight %}
 
-Unless defend_this_square evaluated to true squares[available_squares(squares).sample] = 'o'.
+Unless defend_this_square evaluated to true squares[available_squares(squares).sample] = O.
 
 So there we have the newly updated player2 method and we have a pretty good understanding of what two_in_a_row and check_for_winner does so now let us understand how they work.
 
@@ -262,7 +262,7 @@ So there we have the newly updated player2 method and we have a pretty good unde
 
 {% highlight ruby linenos %}
 # checks to see if two in a row
-def two_in_a_row?(hsh, mrkr)
+def two_in_a_row(hsh, mrkr)
   if hsh.values.count(mrkr) == 2
     hsh.select{|k,v| v == ' '}.keys.first
   else
@@ -277,7 +277,7 @@ This hash is created in the player2 method like so:
 
 {% highlight ruby %}
 WINNING_LINES.each do |l|
-  defend_this_square = two_in_a_row?({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
+  defend_this_square = two_in_a_row({l[0] => squares[l[0]], l[1] => squares[l[1]], l[2] => squares[l[2]]}, O)
 end
 {% endhighlight %}
 
@@ -300,10 +300,10 @@ The above is the hash which is passed into two_in_a_row. Next we ask if the valu
 {% highlight ruby linenos %}
 # check for winner method
 def check_for_winner(line, squares)
-  if line.find {|l| l.all? {|k| squares[k] == "x"} }
+  if line.find {|l| l.all? {|k| squares[k] == X} }
     puts "player WINS!!!"
     true
-  elsif line.find {|l| l.all? {|k| squares[k] == "o"} }
+  elsif line.find {|l| l.all? {|k| squares[k] == O} }
     puts "computer wins :("
     true
   end
@@ -315,7 +315,7 @@ In order for us to check if a player has 3 in a row we need to pass in the array
 So lets look at the first in detail.
 
 {% highlight ruby %}
-line.find {|l| l.all? {|k| squares[k] == "x"} }
+line.find {|l| l.all? {|k| squares[k] == X} }
 {% endhighlight %}
 
 line is going to be our WINNING_LINES array and I am using the .find method to iterate through each array (l), and if all the elements in that array equal 'x' then it is true and the block is executed:
@@ -381,9 +381,11 @@ The ever helpfull guys over on the #ruby channel at irc made the following obser
 
 - Don't reassign constants in a loop, they should be constant values so put them at top of the script
 - else; false; end is equiv to else; return false; end as its the last expression of a method so no need for the return
-- General indentation that I'd missed.
+- General indentation that I'd missed
+- I orignally named my two_in_a_row method two_in_a_row?. You should only use a '?' if your method is going to return a boolean and because it often returns a value the question mark should be omitted
+
 
 
 <h3>Thanks:</h3>
-Albert and Brandon at Tealeaf for reading and running my code and making suggestions for improvement. Hanmac, tobiasvl, jhass, shevy & workmad3 and the #ruby irc channel in general for always being on hand to help out without ever seeming to want anything in return.
+Chris, Albert and Brandon at Tealeaf for reading and running my code and making suggestions for improvement and thanks Chris for writing the neat little two_in_a_row method and help me understand what was going on there. Hanmac, tobiasvl, jhass, shevy & workmad3 and the #ruby irc channel in general for always being on hand to help out without ever seeming to want anything in return.
 
