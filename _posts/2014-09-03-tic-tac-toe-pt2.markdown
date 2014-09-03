@@ -385,5 +385,5 @@ The ever helpfull guys over on the #ruby channel at irc made the following obser
 
 
 <h3>Thanks:</h3>
-Brandon at Tealeaf for reading and running my code and making suggestions for improvement. Hanmac, tobiasvl, jhass, shevy & workmad3 and the #ruby irc channel in general for always being on hand to help out without ever seeming to want anything in return.
+Albert and Brandon at Tealeaf for reading and running my code and making suggestions for improvement. Hanmac, tobiasvl, jhass, shevy & workmad3 and the #ruby irc channel in general for always being on hand to help out without ever seeming to want anything in return.
 
