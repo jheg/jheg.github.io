@@ -12,3 +12,11 @@
   border: 1px solid rgb(240,240,240);
   border-radius: 5px;
 }
+.terminal{ 
+  font-family: menlo, monospace;
+  font-size: 11px;
+  font-weight: normal;
+  padding: 5px;
+  background-color: black;
+  color: white;
+}

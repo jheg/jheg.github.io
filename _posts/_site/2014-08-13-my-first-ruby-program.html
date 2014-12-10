@@ -1,0 +1,195 @@
+<p>So the task was:</p>
+
+<p><i>To build from scratch, the game Rock Paper Scissors in ruby from what I have learnt from the course so far.</i></p>
+
+<p>This is the first time I have essentially started with a blank editor and written my own code to achieve a game that is RPS. I started by writing some psuedo code of how I thought it worked logically.</p>
+
+<ul>
+  <li>User chooses an option of P/R/S</li>
+  <li>comp selects one at random</li>
+  <li>a comparison is made </li>
+  <li>the result is output</li>
+  <li>play again?</li>
+</ul>
+
+<p>There were a couple of things I was unsure of at the start but for the most part I was confident I could do it without having to refer to the solution video and the solution code which I’ll post at the end of this post. </p>
+
+<p>I was unsure of two things:</p>
+
+<ol>
+  <li>How to get the computer to randomly select one of the three options </li>
+  <li>How I would take a letter from the user using the gets.chomp method and compare it to the computers random value.</li>
+</ol>
+
+<p>For my first problem I simply googled ‘how do I randomly select an array element in ruby’ and stackoverflow held the answer using the .sample method on the array. </p>
+
+<p>The second problem I assigned user input using gets.chomp to a variable called ans and then ran a conditional statement on its value and depending on the statement assigned a new variable called users_choice to position in the objects array that held the 3 options. Hopefully the code will make this a little clearer.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="lineno"> 4</span>   <span class="nb">puts</span> <span class="s2">&quot;--- </span><span class="si">#{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> ---&quot;</span>
+<span class="lineno"> 5</span> <span class="k">end</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="n">objects</span> <span class="o">=</span> <span class="sx">%w(Paper Rock Scissors)</span>
+<span class="lineno"> 8</span> <span class="n">again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="k">while</span> <span class="n">again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span>   <span class="nb">puts</span> <span class="s2">&quot;Choose One: (P/R/S)&quot;</span>
+<span class="lineno">13</span>   <span class="n">ans</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">14</span>   <span class="n">ans</span><span class="o">.</span><span class="n">upcase!</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span>     <span class="k">while</span> <span class="n">ans</span> <span class="o">!=</span> <span class="s1">&#39;P&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">ans</span> <span class="o">!=</span> <span class="s1">&#39;R&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">ans</span> <span class="o">!=</span> <span class="s1">&#39;S&#39;</span>
+<span class="lineno">17</span>       <span class="nb">puts</span> <span class="s2">&quot;Choose One: (P/R/S)&quot;</span>
+<span class="lineno">18</span>       <span class="n">ans</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">19</span>     <span class="k">end</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span>     <span class="k">if</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;P&quot;</span>
+<span class="lineno">22</span>       <span class="n">users_choice</span> <span class="o">=</span> <span class="n">objects</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+<span class="lineno">23</span>     <span class="k">elsif</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;R&quot;</span>
+<span class="lineno">24</span>       <span class="n">users_choice</span> <span class="o">=</span> <span class="n">objects</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+<span class="lineno">25</span>     <span class="k">else</span>
+<span class="lineno">26</span>       <span class="n">users_choice</span> <span class="o">=</span> <span class="n">objects</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+<span class="lineno">27</span>     <span class="k">end</span>
+<span class="lineno">28</span>     
+<span class="lineno">29</span> 
+<span class="lineno">30</span>   <span class="n">comp</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="n">sample</span>
+<span class="lineno">31</span>   <span class="n">say</span><span class="p">(</span><span class="s2">&quot;You chose </span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="lineno">32</span>   <span class="n">say</span><span class="p">(</span><span class="s2">&quot;Computer chose </span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="lineno">33</span> 
+<span class="lineno">34</span> 
+<span class="lineno">35</span>     <span class="k">if</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="n">comp</span>  
+<span class="lineno">36</span>       <span class="nb">puts</span> <span class="s2">&quot;You picked </span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2"> and computer picked </span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">37</span>       <span class="nb">puts</span> <span class="s2">&quot;its a draw!&quot;</span>
+<span class="lineno">38</span>     <span class="k">elsif</span>
+<span class="lineno">39</span>       <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Paper&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Rock&quot;</span>
+<span class="lineno">40</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2"> covers </span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">41</span>       <span class="nb">puts</span> <span class="s2">&quot;You win!&quot;</span>
+<span class="lineno">42</span>     <span class="k">elsif</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Paper&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Scissors&quot;</span>
+<span class="lineno">43</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2"> cuts </span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">44</span>       <span class="nb">puts</span> <span class="s2">&quot;You lose!&quot;</span>
+<span class="lineno">45</span>     <span class="k">elsif</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Rock&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Paper&quot;</span>
+<span class="lineno">46</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2"> covers </span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">47</span>       <span class="nb">puts</span> <span class="s2">&quot;You lose!&quot;</span>
+<span class="lineno">48</span>     <span class="k">elsif</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Rock&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Scissors&quot;</span>
+<span class="lineno">49</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2"> blunts </span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">50</span>       <span class="nb">puts</span> <span class="s2">&quot;You win!&quot;</span>
+<span class="lineno">51</span>     <span class="k">elsif</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Scissors&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Paper&quot;</span>
+<span class="lineno">52</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2"> cuts </span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">53</span>       <span class="nb">puts</span> <span class="s2">&quot;You win!&quot;</span>
+<span class="lineno">54</span>     <span class="k">elsif</span> <span class="n">users_choice</span> <span class="o">==</span> <span class="s2">&quot;Rock&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">comp</span> <span class="o">==</span> <span class="s2">&quot;Scissors&quot;</span>
+<span class="lineno">55</span>       <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">comp</span><span class="si">}</span><span class="s2"> blunts </span><span class="si">#{</span><span class="n">users_choice</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">56</span>       <span class="nb">puts</span> <span class="s2">&quot;You lose!&quot;</span>
+<span class="lineno">57</span>     <span class="k">end</span>
+<span class="lineno">58</span> 
+<span class="lineno">59</span> <span class="nb">puts</span> <span class="s2">&quot;Play again? (Y/N)&quot;</span>
+<span class="lineno">60</span> <span class="n">again</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">61</span> 
+<span class="lineno">62</span> <span class="k">end</span></code></pre></div>
+
+<p>…and there we have it, a fully working ruby program that I built from scratch! This feels like a real landmark and I’m going to celebrate with a lovely cuppa before checking the solution code in case it puts my effort to shame.</p>
+
+<h2>The solution</h2>
+
+<p>I’ll concentrate on sections of the solution which do the same thing differently:</p>
+
+<p>I stored the options in an array whereas the solution uses a hash in a constant. Also I used a while loop to check the user input matched the required input whereas the solution uses begin end until:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">CHOICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Paper&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Rock&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Scissors&#39;</span><span class="p">}</span>
+
+<span class="kp">loop</span> <span class="k">do</span>
+  
+  <span class="c1"># player picks</span>
+  <span class="k">begin</span> 
+    <span class="nb">puts</span> <span class="s2">&quot;Pick one: (p/r/s)&quot;</span>
+    <span class="n">player_choice</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">downcase</span>
+  <span class="k">end</span> <span class="k">until</span> <span class="no">CHOICES</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">player_choice</span><span class="p">)</span>
+
+<span class="k">end</span></code></pre></div>
+
+<p>Next, the computers choice is declared in a similar way to how I did it using the sample method:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">computer_choice</span> <span class="o">=</span> <span class="no">CHOICES</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sample</span></code></pre></div>
+
+<p>The above uses the keys method which returns an array of keys then uses the sample method to get a key chosen at random.</p>
+
+<p>Now that the player and computer choices are known, the comparison can begin and this is the biggest difference between the two solutions. The solution still uses an if else but it uses fewer steps than I did and extracts a large part into a method. I much prefer this version to mine where I effectively hard coded each outcome.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">display_winning_message</span><span class="p">(</span><span class="n">winning_choice</span><span class="p">)</span>
+  <span class="k">case</span> <span class="n">winning_choice</span>
+  <span class="k">when</span> <span class="s1">&#39;p&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Paper wraps Rock!&quot;</span>
+  <span class="k">when</span> <span class="s1">&#39;r&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Rock smashes Scissors!&quot;</span>
+  <span class="k">when</span> <span class="s1">&#39;s&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Scissors cuts Paper!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">player_choice</span> <span class="o">==</span> <span class="n">computer_choice</span>
+  <span class="nb">puts</span> <span class="s2">&quot;It&#39;s a tie!&quot;</span>
+<span class="k">elsif</span> <span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="o">||</span> 
+<span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span> <span class="o">||</span> 
+<span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span>
+  <span class="n">display_winning_message</span><span class="p">(</span><span class="n">player_choice</span><span class="p">)</span>
+<span class="k">else</span>
+  <span class="n">display_winning_message</span><span class="p">(</span><span class="n">computer_choice</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Computer won!&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Finally the player is asked if he/she wants to play again:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">puts</span> <span class="s2">&quot;Play again? (y/n)&quot;</span>
+<span class="k">break</span> <span class="k">if</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s1">&#39;y&#39;</span></code></pre></div>
+
+<p>The solution code in full:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">puts</span> <span class="s2">&quot;Welcome to Paper Rock Scissors&quot;</span>
+
+<span class="no">CHOICES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Paper&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Rock&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Scissors&#39;</span><span class="p">}</span>
+
+<span class="kp">loop</span> <span class="k">do</span>
+  
+  <span class="c1"># player picks</span>
+  <span class="k">begin</span> 
+    <span class="nb">puts</span> <span class="s2">&quot;Pick one: (p/r/s)&quot;</span>
+    <span class="n">player_choice</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">downcase</span>
+  <span class="k">end</span> <span class="k">until</span> <span class="no">CHOICES</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">player_choice</span><span class="p">)</span>
+
+  <span class="c1"># computer picks</span>
+  <span class="n">computer_choice</span> <span class="o">=</span> <span class="no">CHOICES</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">sample</span>
+
+<span class="k">def</span> <span class="nf">display_winning_message</span><span class="p">(</span><span class="n">winning_choice</span><span class="p">)</span>
+  <span class="k">case</span> <span class="n">winning_choice</span>
+  <span class="k">when</span> <span class="s1">&#39;p&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Paper wraps Rock!&quot;</span>
+  <span class="k">when</span> <span class="s1">&#39;r&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Rock smashes Scissors!&quot;</span>
+  <span class="k">when</span> <span class="s1">&#39;s&#39;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Scissors cuts Paper!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="n">player_choice</span> <span class="o">==</span> <span class="n">computer_choice</span>
+  <span class="nb">puts</span> <span class="s2">&quot;It&#39;s a tie!&quot;</span>
+<span class="k">elsif</span> <span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="o">||</span> 
+<span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;r&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span> <span class="o">||</span> 
+<span class="p">(</span><span class="n">player_choice</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span> <span class="o">&amp;&amp;</span> <span class="n">computer_choice</span> <span class="o">==</span> <span class="s1">&#39;p&#39;</span><span class="p">)</span>
+  <span class="n">display_winning_message</span><span class="p">(</span><span class="n">player_choice</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;YOU WIN!!&quot;</span>
+<span class="k">else</span>
+  <span class="n">display_winning_message</span><span class="p">(</span><span class="n">computer_choice</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Computer won!&quot;</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="s2">&quot;Play again? (y/n)&quot;</span>
+<span class="k">break</span> <span class="k">if</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">downcase</span> <span class="o">!=</span> <span class="s1">&#39;y&#39;</span>
+
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="s2">&quot;Good Bye o/&quot;</span></code></pre></div>
+
+<h2>Thanks to:</h2>
+<p><a href="http://blog.brandon-conway.com">Brandon</a> who is one of the immensely helpful teaching assistants at Tealeaf for checking my code, suggesting little improvements and assuring me the different solutions doesn’t always mean a better solution and to Vic for checking my grammar!</p>
+

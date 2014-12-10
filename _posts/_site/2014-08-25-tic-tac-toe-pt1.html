@@ -1,0 +1,151 @@
+<p>Following on from the assignment to build the paper rock scissors game I was tasked with trying to build the game Tic Tac Toe. As with the previous mini project this was to be built from scratch from what I learnt from the course so far. </p>
+
+<p>Game Logic:</p>
+
+<ul>
+  <li>Draw board</li>
+  <li>Decide who goes first</li>
+  <li>Player takes a turn and picks from available squares</li>
+  <li>Check to see if winner </li>
+  <li>Check if any squares are left </li>
+  <li>Player 2 takes a turn </li>
+  <li>Play again?</li>
+</ul>
+
+<p>My approach to the build </p>
+
+<p>I think the most complex part of this was going to be building the checks to see if a player had won after their go so I decided to leave this until part two. I wanted to get the basic loop of the game working smoothly from program execution to game end including the following compontents:</p>
+
+<ul>
+  <li>Game start and play again?</li>
+  <li>Initializing the empty squares</li>
+  <li>Drawing the board</li>
+  <li>Deciding who would go first at random</li>
+  <li>Building in a slight delay for the computers go so as to improve the UX for the player. The game demo in the course video instantly executed the computers go as soon as the player had gone making a slightly confusing UX for the player</li>
+  <li>Checking which squares were available for selection and telling the player which these squares were including a check to ensure the player had selected an empty square</li>
+  <li>Output a message that the game has ended</li>
+</ul>
+
+<h2>Step 1: Start of game and play again</h2>
+
+<p>I will basically wrap my entire game inside a while loop that says while the variable ‘play_again’ equals ‘y’ start game and at the end of each game store the players decision to play again inside the ‘play_again’ variable.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># play again?</span>
+<span class="lineno"> 2</span> <span class="n">play_again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="k">while</span> <span class="n">play_again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="c1"># the code for my game will go here</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span> <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno"> 9</span> <span class="nb">puts</span> <span class="s2">&quot;GAME OVER&quot;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="c1"># play again?</span>
+<span class="lineno">12</span> <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">13</span> <span class="nb">puts</span> <span class="s2">&quot;Play again? (y/n)&quot;</span>
+<span class="lineno">14</span> <span class="n">play_again</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="k">end</span></code></pre></div>
+
+<p>The game starts when the file is executed because line 4 checks the ‘play_again’ variable to see if it evaluates to true and if so starts the game. After the game has finished a message is displayed informing the player the game is over and asks do they wish to play again. The players answer is obtained using gets.chomp which stores the users input as a string into the variable - the while loop then checks again and either restarts or quits.</p>
+
+<h2>Step 2: Storing the squares</h2>
+
+<p>Using a hash to store the squares seemed like a good idea as I could use the square numbers as the keys and store the users markers (x or o) as the values.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># initialize the empty hash that will store the board squares</span>
+<span class="n">board_squares</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">2</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">3</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">4</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">5</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">6</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">7</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">8</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">9</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">}</span></code></pre></div>
+
+<p>The space in the values are intentional so that when it is replaced with either an ‘x’ or ‘o’ it occupies the same width in the grid and avoids throwing out the formatting.</p>
+
+<h2>Step 3: Writing a method that checks for available squares (squares that equal " ")</h2>
+
+<p>If I don’t have a means of checking if a square is empty I am unable to stop the player or computer from picking the same square so the purpose of this method is to return an array of squares (the keys from our board_squares hash) that contain “ “.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># Available squares</span>
+<span class="k">def</span> <span class="nf">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+  <span class="n">squares</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">_</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">}</span><span class="o">.</span><span class="n">keys</span>
+<span class="k">end</span></code></pre></div>
+
+<p>What’s happening here is that we will be able to pass into this method our board_squares hash and select from it key value pairs where pair equals “ “ returning the key into an array for use in our program. The squares parameter I orignially named ‘b’ but as correctly pointed out by Brandon at Tealeaf, Ruby is an expressive language and so you shouldn’t be afraid to use more descriptive naming conventions so they still make sense in the future. It is also considered best practice that if you are not using an argument in the code block then it should be written as a single underscore so it indicates it is not used.</p>
+
+<h2>Step 4: Creating an array to store player1 and player2</h2>
+
+<p>This will help me select at random who goes first later on - player or computer</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># players stored in array so player can be chosen at random</span>
+<span class="n">players</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;player1&quot;</span><span class="p">,</span> <span class="s2">&quot;player2&quot;</span><span class="o">]</span></code></pre></div>
+
+<h2>Step 5: Drawing the board</h2>
+
+<p>Before I started this assignment I spent days thinking about how I could draw the board and dynamically update it after each iteration of the game loop. I had to check part of the solution video for this as I couldn’t quite grasp how this was going to work. It was simple once I reviewed the video though. Draw the board using puts and using string interpolation to store the current status of the board_squares hash. All of this is stored in a method called draw_board.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno">1</span> <span class="c1"># draw the board </span>
+<span class="lineno">2</span> <span class="k">def</span> <span class="nf">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">3</span>   <span class="nb">system</span> <span class="s1">&#39;clear&#39;</span>
+<span class="lineno">4</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">5</span>   <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+<span class="lineno">6</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">7</span>   <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+<span class="lineno">8</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">9</span> <span class="k">end</span></code></pre></div>
+
+<p>I’m certain I could have drawn a much more elaborate board but this works well enough. Without the system ‘clear’ the game becomes a bit messy and stacks each iteration of the game loop on top of each other repeatedly printing out the board. system ‘clear’ keeps the game nice and tidy.</p>
+
+<h2>Step 6: Writing the start of the methods where player or computer picks a square</h2>
+
+<p>Here I created two methods, one for each player. The first method is for player and starts with a conditional check that we will use to see if there are any empty squares in our board_squares hash. If this evaluates true the program continues to line 4 and asks the player to choose a square. I used string interpolation to pass in the available_squares method that returns an array of the squares left for selection helping the player make their choice. Using gets.chomp.to_i We then store the players answer into the variable ‘i’. The to_i converts from string to integer. We then run an if else statement to check if the players choice is available for selection and if it is assigns the square with an ‘x’. If the conditional is false the program runs again and asks the player to choose a square. Once finished the updated board is displayed.</p>
+
+<p>The second method handles the computers go. First off a message informing the player the computer is taking a turn. Next I used ‘sleep 0.5’ to give the feeling of a more natural pace. The computer then selects a random available square using the .sample method and stores it in the ‘i’ variable. We the pass this variable into the board_squares hash and assign it an ‘o’. Finally we display the updated board.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># player/computer picks square methods</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="k">def</span> <span class="nf">player1</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span> 
+<span class="lineno"> 4</span>     <span class="k">if</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">any?</span>
+<span class="lineno"> 5</span>       <span class="nb">puts</span> <span class="s2">&quot;Choose an available square from </span><span class="si">#{</span><span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno"> 6</span>       <span class="n">i</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>    
+<span class="lineno"> 7</span>         <span class="k">if</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="lineno"> 8</span>           <span class="n">squares</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="lineno"> 9</span>         <span class="k">else</span>
+<span class="lineno">10</span>           <span class="n">player1</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">11</span>         <span class="k">end</span>     
+<span class="lineno">12</span>       <span class="n">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">13</span>     <span class="k">end</span>
+<span class="lineno">14</span> <span class="k">end</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="k">def</span> <span class="nf">player2</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">17</span>     <span class="nb">puts</span> <span class="s2">&quot;Computer chooses a square&quot;</span>
+<span class="lineno">18</span>     <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">19</span>     <span class="n">i</span> <span class="o">=</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span>
+<span class="lineno">20</span>     <span class="n">squares</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;o&quot;</span>
+<span class="lineno">21</span>     <span class="n">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">22</span> <span class="k">end</span></code></pre></div>
+
+<h2>Step 7: The game begins</h2>
+
+<p>The game begins by storing the person to go first in a variable called goes_first by taking a random sample from our players array and draws the empty board to the screen.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># setting the who goes first variable</span>
+<span class="n">goes_first</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="n">sample</span>
+
+<span class="c1"># show players the empty board</span>
+<span class="n">draw_board</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span></code></pre></div>
+
+<p>We decide who goes first by running an if elsif to check which player is stored in the goes_first variable then
+we simply invoke each players turn by calling the methods in a loop that runs until there are no squares left. </p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># Conditional that checks which loop to execute: player 1 or player 2</span>
+<span class="lineno"> 2</span> <span class="k">if</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player1&#39;</span>
+<span class="lineno"> 3</span>   <span class="k">begin</span>
+<span class="lineno"> 4</span>     <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno"> 5</span>     <span class="n">player2</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno"> 6</span>   <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno"> 7</span> <span class="k">elsif</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player2&#39;</span>
+<span class="lineno"> 8</span>   <span class="k">begin</span>
+<span class="lineno"> 9</span>     <span class="n">player2</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">10</span>     <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">11</span>   <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno">12</span> <span class="k">end</span></code></pre></div>
+
+<p>Things are working smoothly so far and the game is beginning to take shape nicely. I’ll finish the game in part two.</p>
+

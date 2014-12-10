@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Building 'Tic Tac Toe' part two</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Documenting my path to learning the ruby language and ruby on rails from absolute beginner. ">
+    <link rel="canonical" href="http://jheg.co.uk/programs/2014/09/03/tic-tac-toe-pt2/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/">Jason Hegarty learning to code in ruby</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          <a class="page-link" href="/about/">About</a>
+        
+          <a class="page-link" href="/feed.xml"></a>
+        
+          <a class="page-link" href="/"></a>
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>Building 'Tic Tac Toe' part two</h1>
+    <p class="meta">Sep 3, 2014</p>
+  </header>
+
+  <article class="post-content">
+  <p>In part one I got the basics of the game control working to a point where I felt I had an excellent foundation in which to build upon. In part two I wanted to start to build in some intelligence for the computer player rather than the computer aimlessly picking random squares and I wanted to tidy up my code - indentation etc. </p>
+
+<p>I’m going to break it all down but here is my final code:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno">  1</span> <span class="c1"># Initialize board hash</span>
+<span class="lineno">  2</span> <span class="c1"># Draw board</span>
+<span class="lineno">  3</span> <span class="c1"># Choose at random who goes first</span>
+<span class="lineno">  4</span> <span class="c1"># Player/Computer has a turn if square available</span>
+<span class="lineno">  5</span> <span class="c1"># check for winner</span>
+<span class="lineno">  6</span> 
+<span class="lineno">  7</span> <span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+<span class="lineno">  8</span> 
+<span class="lineno">  9</span> <span class="c1"># constants</span>
+<span class="lineno"> 10</span> <span class="c1"># rows columns and diagonals</span>
+<span class="lineno"> 11</span> <span class="no">WINNING_LINES</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="o">]]</span>
+<span class="lineno"> 12</span> 
+<span class="lineno"> 13</span> <span class="c1"># markers</span>
+<span class="lineno"> 14</span> <span class="n">X</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+<span class="lineno"> 15</span> <span class="n">O</span> <span class="o">=</span> <span class="s1">&#39;o&#39;</span>
+<span class="lineno"> 16</span> 
+<span class="lineno"> 17</span> <span class="c1"># Available squares</span>
+<span class="lineno"> 18</span> <span class="k">def</span> <span class="nf">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 19</span>   <span class="n">squares</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">_</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">}</span><span class="o">.</span><span class="n">keys</span>
+<span class="lineno"> 20</span> <span class="k">end</span>
+<span class="lineno"> 21</span> 
+<span class="lineno"> 22</span> <span class="c1"># draw the board</span>
+<span class="lineno"> 23</span> <span class="k">def</span> <span class="nf">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 24</span>   <span class="nb">system</span> <span class="s1">&#39;clear&#39;</span>
+<span class="lineno"> 25</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno"> 26</span>   <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+<span class="lineno"> 27</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno"> 28</span>   <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+<span class="lineno"> 29</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span><span class="si">}</span><span class="s2">|</span><span class="si">#{</span><span class="n">squares</span><span class="o">[</span><span class="mi">9</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno"> 30</span> <span class="k">end</span>
+<span class="lineno"> 31</span> 
+<span class="lineno"> 32</span> <span class="c1"># check for winner method</span>
+<span class="lineno"> 33</span> <span class="k">def</span> <span class="nf">check_for_winner</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 34</span>   <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="n">l</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">squares</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">==</span> <span class="n">X</span><span class="p">}</span> <span class="p">}</span>
+<span class="lineno"> 35</span>     <span class="nb">puts</span> <span class="s2">&quot;player WINS!!!&quot;</span>
+<span class="lineno"> 36</span>     <span class="kp">true</span>
+<span class="lineno"> 37</span>   <span class="k">elsif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="n">l</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">squares</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">==</span> <span class="n">O</span><span class="p">}</span> <span class="p">}</span>
+<span class="lineno"> 38</span>     <span class="nb">puts</span> <span class="s2">&quot;computer wins :(&quot;</span>
+<span class="lineno"> 39</span>     <span class="kp">true</span>
+<span class="lineno"> 40</span>   <span class="k">end</span>
+<span class="lineno"> 41</span> <span class="k">end</span>
+<span class="lineno"> 42</span> 
+<span class="lineno"> 43</span> <span class="c1"># checks to see if two in a row</span>
+<span class="lineno"> 44</span> <span class="k">def</span> <span class="nf">two_in_a_row</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="n">mrkr</span><span class="p">)</span>
+<span class="lineno"> 45</span>   <span class="k">if</span> <span class="n">hsh</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">mrkr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="lineno"> 46</span>     <span class="n">hsh</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">}</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">first</span>
+<span class="lineno"> 47</span>   <span class="k">else</span>
+<span class="lineno"> 48</span>     <span class="kp">false</span>
+<span class="lineno"> 49</span>   <span class="k">end</span>
+<span class="lineno"> 50</span> <span class="k">end</span>
+<span class="lineno"> 51</span> 
+<span class="lineno"> 52</span> <span class="c1"># player/computer picks square methods</span>
+<span class="lineno"> 53</span> <span class="c1"># player 1</span>
+<span class="lineno"> 54</span> <span class="k">def</span> <span class="nf">player1</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 55</span>   <span class="k">if</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">any?</span>
+<span class="lineno"> 56</span>     <span class="nb">puts</span> <span class="s2">&quot;Choose an available square from </span><span class="si">#{</span><span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno"> 57</span>     <span class="n">i</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+<span class="lineno"> 58</span>     <span class="k">if</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="lineno"> 59</span>       <span class="n">squares</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">X</span>
+<span class="lineno"> 60</span>     <span class="k">else</span>
+<span class="lineno"> 61</span>       <span class="n">player1</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 62</span>     <span class="k">end</span>
+<span class="lineno"> 63</span>     <span class="n">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 64</span>   <span class="k">end</span>
+<span class="lineno"> 65</span> <span class="k">end</span>
+<span class="lineno"> 66</span> 
+<span class="lineno"> 67</span> <span class="c1"># player 2</span>
+<span class="lineno"> 68</span> <span class="k">def</span> <span class="nf">player2</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 69</span>   <span class="nb">puts</span> <span class="s2">&quot;Computer chooses a square&quot;</span>
+<span class="lineno"> 70</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno"> 71</span> 
+<span class="lineno"> 72</span>   <span class="n">defend_this_square</span> <span class="o">=</span> <span class="kp">nil</span>
+<span class="lineno"> 73</span>   <span class="n">attacked</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="lineno"> 74</span>   
+<span class="lineno"> 75</span>   <span class="c1"># attack </span>
+<span class="lineno"> 76</span>   <span class="no">WINNING_LINES</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">l</span><span class="o">|</span>
+<span class="lineno"> 77</span>     <span class="n">defend_this_square</span> <span class="o">=</span> <span class="n">two_in_a_row</span><span class="p">({</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">},</span> <span class="n">O</span><span class="p">)</span>
+<span class="lineno"> 78</span>     <span class="k">if</span> <span class="n">defend_this_square</span>
+<span class="lineno"> 79</span>       <span class="n">squares</span><span class="o">[</span><span class="n">defend_this_square</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span>
+<span class="lineno"> 80</span>       <span class="n">attacked</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="lineno"> 81</span>       <span class="k">break</span>
+<span class="lineno"> 82</span>     <span class="k">end</span>
+<span class="lineno"> 83</span>   <span class="k">end</span>
+<span class="lineno"> 84</span>   
+<span class="lineno"> 85</span>   <span class="c1"># defend  </span>
+<span class="lineno"> 86</span>   <span class="k">if</span> <span class="n">attacked</span> <span class="o">==</span> <span class="kp">false</span>
+<span class="lineno"> 87</span>     <span class="no">WINNING_LINES</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">l</span><span class="o">|</span>
+<span class="lineno"> 88</span>       <span class="n">defend_this_square</span> <span class="o">=</span> <span class="n">two_in_a_row</span><span class="p">({</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">},</span> <span class="n">X</span><span class="p">)</span>
+<span class="lineno"> 89</span>       <span class="k">if</span> <span class="n">defend_this_square</span>
+<span class="lineno"> 90</span>         <span class="n">squares</span><span class="o">[</span><span class="n">defend_this_square</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span>
+<span class="lineno"> 91</span>         <span class="k">break</span>
+<span class="lineno"> 92</span>       <span class="k">end</span> 
+<span class="lineno"> 93</span>     <span class="k">end</span> 
+<span class="lineno"> 94</span>   <span class="k">end</span>
+<span class="lineno"> 95</span>   <span class="n">squares</span><span class="o">[</span><span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span> <span class="k">unless</span> <span class="n">defend_this_square</span>
+<span class="lineno"> 96</span>   <span class="n">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 97</span> <span class="k">end</span>
+<span class="lineno"> 98</span> 
+<span class="lineno"> 99</span> <span class="c1"># play again?</span>
+<span class="lineno">100</span> <span class="n">play_again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno">101</span> 
+<span class="lineno">102</span> <span class="k">while</span> <span class="n">play_again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno">103</span> 
+<span class="lineno">104</span>   <span class="c1"># initialize the empty hash that will store the board squares</span>
+<span class="lineno">105</span>   <span class="n">board_squares</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">2</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">3</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">4</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">5</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">6</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">7</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">8</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">9</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">}</span>
+<span class="lineno">106</span> 
+<span class="lineno">107</span>   <span class="c1"># players stored in array so player can be chosen at random</span>
+<span class="lineno">108</span>   <span class="n">players</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;player1&quot;</span><span class="p">,</span> <span class="s2">&quot;player2&quot;</span><span class="o">]</span>
+<span class="lineno">109</span> 
+<span class="lineno">110</span>   <span class="c1"># setting the who goes first variable</span>
+<span class="lineno">111</span>   <span class="n">goes_first</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="n">sample</span>
+<span class="lineno">112</span> 
+<span class="lineno">113</span>   <span class="c1"># show players the empty board</span>
+<span class="lineno">114</span>   <span class="n">draw_board</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">115</span> 
+<span class="lineno">116</span>   <span class="c1"># Conditional that checks which loop to execute: player 1 or player 2</span>
+<span class="lineno">117</span>   <span class="k">if</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player1&#39;</span>
+<span class="lineno">118</span>     <span class="k">begin</span>
+<span class="lineno">119</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">120</span>       <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">121</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">122</span>       <span class="n">player2</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">123</span>     <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno">124</span>   <span class="k">elsif</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player2&#39;</span>
+<span class="lineno">125</span>     <span class="k">begin</span>
+<span class="lineno">126</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">127</span>       <span class="n">player2</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">128</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">129</span>       <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">130</span>     <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno">131</span>   <span class="k">end</span>
+<span class="lineno">132</span> 
+<span class="lineno">133</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">134</span>   <span class="nb">puts</span> <span class="s2">&quot;GAME OVER&quot;</span>
+<span class="lineno">135</span> 
+<span class="lineno">136</span>   <span class="c1"># play again?</span>
+<span class="lineno">137</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">138</span>   <span class="nb">puts</span> <span class="s2">&quot;Play again? (y/n)&quot;</span>
+<span class="lineno">139</span>   <span class="n">play_again</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">140</span> 
+<span class="lineno">141</span> <span class="k">end</span></code></pre></div>
+
+<p>So this program is effectively in two parts. The first part holds all of the methods and constants required in the game and the second part is the game itself which resides inside a while loop. The while loop basically checks to see if the play_again variable is set to yes or no. </p>
+
+<p>First off with have a constant variable called WINNING_LINES. This is an array of arrays that is storing the lines on our tic tac toe board. There are 8 lines in total and I will iterate through these arrays when I am checking for certain conditions in my game methods. </p>
+
+<p>A constant variable is denoted by a leading capital although the convention is to write them all in CAPS. The scope of a constant differs to local variables. You should use a constant variable when its value shouldn’t be changed although beware it is possible to change a constant variable in ruby with a little warning from the interpreter.</p>
+
+<p>I have then stored ‘x’ &amp; ‘o’ in the constants X and O for use later on in our game methods.</p>
+
+<p>I covered the methods draw_board, available_squares and player1 in part 1 and they remain unchanged. I also wrote a player2 method but in this part I began to build this method out to give it some added power. In addition to these methods I’ve added two new methods, two_in_a_row and check_for_winner which I’ll explain shortly. First lets look at the player2 method before the change.</p>
+
+<p>Before:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno">1</span> <span class="k">def</span> <span class="nf">player2</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">2</span>   <span class="nb">puts</span> <span class="s2">&quot;Computer chooses a square&quot;</span>
+<span class="lineno">3</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">4</span>   <span class="n">i</span> <span class="o">=</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span>
+<span class="lineno">5</span>   <span class="n">squares</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span>
+<span class="lineno">6</span>   <span class="n">draw_board</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="lineno">7</span> <span class="k">end</span></code></pre></div>
+
+<p>You can see that at this point the method just outputs a message and then assigns a random square to a local variable named i from the available_squares method. Using the i variable it then assigns an ‘o’ to the square on the board and then draws the board. </p>
+
+<p>At this point the computer is hideously disadvantaged as all it can do is select a random available square. It cannot attack and it cannot defend so that is what I needed to build in. </p>
+
+<p>We’ll look at <i>how</i> the two new methods work shortly but for now just know the following: </p>
+
+<ul>
+  <li>The two_in_a_row method checks to see if there is a combination that exists whereby a player has two of their markers in a line and the remaining square is emtpy. For example true if ‘x’ ‘ ‘ ‘x’ false if ‘x’ ‘o’ ‘x’.</li>
+  <li>The check_for_winner method checks to see if either a line is filled exclusively with either all ‘x’ or ‘o’ for example true if ‘x’ ‘x’ ‘x’ or ‘o’ ‘o’ ‘o’.</li>
+</ul>
+
+<p>I added a parameter to the method to start with so that we can now pass in the WINNING_LINES as well as the board_squares. </p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">player2</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">squares</span><span class="p">)</span></code></pre></div>
+
+<p>I added two new local variables to work with within the method named defend_this_square and attacked and assigned them nil and false respectively.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">defend_this_square</span> <span class="o">=</span> <span class="kp">nil</span>
+<span class="n">attacked</span> <span class="o">=</span> <span class="kp">false</span></code></pre></div>
+
+<p>Now we want one of three things will happen on the computers turn: </p>
+
+<ol>
+  <li>Computer checks to see if it can attack</li>
+  <li>If it cannot attack it will see if it needs to defend </li>
+  <li>If it doesn’t need to defend it will just choose a random available square.</li>
+</ol>
+
+<h3>Computer attacks</h3>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno">1</span> <span class="c1"># attack </span>
+<span class="lineno">2</span> <span class="no">WINNING_LINES</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">l</span><span class="o">|</span>
+<span class="lineno">3</span>   <span class="n">defend_this_square</span> <span class="o">=</span> <span class="n">two_in_a_row</span><span class="p">({</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">},</span> <span class="n">O</span><span class="p">)</span>
+<span class="lineno">4</span>   <span class="k">if</span> <span class="n">defend_this_square</span>
+<span class="lineno">5</span>     <span class="n">squares</span><span class="o">[</span><span class="n">defend_this_square</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span>
+<span class="lineno">6</span>     <span class="n">attacked</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="lineno">7</span>     <span class="k">break</span>
+<span class="lineno">8</span>   <span class="k">end</span>
+<span class="lineno">9</span> <span class="k">end</span></code></pre></div>
+
+<p>The first part starting on line 2 and ending on line 9 is selecting each array (l) in the WINNING_LINES array. </p>
+
+<p>Line 3 - For each of the arrays in the WINNING_LINES array we are reassigning defend_this_square with the result of the two_in_a_row method call that runs the check we described above that will either return a integer (which will also evaluate to true) or false. </p>
+
+<p>Line 4 gets executed if defend_this_square is true (contains a number). If defend_this_square is true on an iteration of WINNING_LINES.each, two_in_a_row must have identified an instance where there were two ‘o’ and an empty square and it will have returned the empty square number into our defend_this_square variable. </p>
+
+<p>Line 5 then gets executed which assigns board_squares[defend_this_square] with a ‘o’ therefor completing a line. </p>
+
+<p>Next we reassign the attacked varaible as true so that option 2 and 3 do not get executed and finally on line 7 we break out of the loop.</p>
+
+<h3>Computer defends</h3>
+
+<p>If defend_this_square had not have evaluated to true on any of the iterations then the defence check would execute:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># defend  </span>
+<span class="lineno"> 2</span> <span class="k">if</span> <span class="n">attacked</span> <span class="o">==</span> <span class="kp">false</span>
+<span class="lineno"> 3</span>   <span class="no">WINNING_LINES</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">l</span><span class="o">|</span>
+<span class="lineno"> 4</span>     <span class="n">defend_this_square</span> <span class="o">=</span> <span class="n">two_in_a_row</span><span class="p">({</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">},</span> <span class="n">X</span><span class="p">)</span>
+<span class="lineno"> 5</span>     <span class="k">if</span> <span class="n">defend_this_square</span>
+<span class="lineno"> 6</span>       <span class="n">squares</span><span class="o">[</span><span class="n">defend_this_square</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span>
+<span class="lineno"> 7</span>       <span class="k">break</span>
+<span class="lineno"> 8</span>     <span class="k">end</span> 
+<span class="lineno"> 9</span>   <span class="k">end</span> 
+<span class="lineno">10</span> <span class="k">end</span></code></pre></div>
+
+<p>So here we can see that if the computer had attacked the attacked variable would now equal true and therefor the above would not be carried out. Assuming that the computer didn’t attack we once again iterate through each of the WINNING_LINES arrays and check for a two_in_a_row instance for X. If it finds an instance it assigns the empty square to defend_this_square and then assigns board_squares[defend_this_square] with an ‘o’ to stop the player from completing a line on their next go. After this it breaks out of the loop.</p>
+
+<p>Finally if neither of these are carried out the computer chooses a random availble square:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">squares</span><span class="o">[</span><span class="n">available_squares</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="o">]</span> <span class="o">=</span> <span class="n">O</span> <span class="k">unless</span> <span class="n">defend_this_square</span></code></pre></div>
+
+<p>Unless defend_this_square evaluated to true squares[available_squares(squares).sample] = O.</p>
+
+<p>So there we have the newly updated player2 method and we have a pretty good understanding of what two_in_a_row and check_for_winner does so now let us understand how they work.</p>
+
+<h3>two_in_a_row</h3>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno">1</span> <span class="c1"># checks to see if two in a row</span>
+<span class="lineno">2</span> <span class="k">def</span> <span class="nf">two_in_a_row</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="n">mrkr</span><span class="p">)</span>
+<span class="lineno">3</span>   <span class="k">if</span> <span class="n">hsh</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">mrkr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="lineno">4</span>     <span class="n">hsh</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">}</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">first</span>
+<span class="lineno">5</span>   <span class="k">else</span>
+<span class="lineno">6</span>     <span class="kp">false</span>
+<span class="lineno">7</span>   <span class="k">end</span>
+<span class="lineno">8</span> <span class="k">end</span></code></pre></div>
+
+<p>For this method to work we want to pass in two parameters, a hash and a marker. The marker is either the X or O constant variable declared at the top of our program. The hash is a little more complex.</p>
+
+<p>This hash is created in the player2 method like so:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">WINNING_LINES</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">l</span><span class="o">|</span>
+  <span class="n">defend_this_square</span> <span class="o">=</span> <span class="n">two_in_a_row</span><span class="p">({</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">},</span> <span class="n">O</span><span class="p">)</span>
+<span class="k">end</span></code></pre></div>
+
+<p>So lets say we are on the iteration of WINNING_LINES.each where l is [4,5,6] and square numbers 4 &amp; 6 contained ‘o’ and 5 was empty:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="p">{</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">0</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">,</span> <span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="n">squares</span><span class="o">[</span><span class="n">l</span><span class="o">[</span><span class="mi">2</span><span class="o">]]</span><span class="p">}</span></code></pre></div>
+
+<p>would be</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="p">{</span> <span class="mi">4</span> <span class="o">=&gt;</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="mi">5</span> <span class="o">=&gt;</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="mi">6</span> <span class="o">=&gt;</span> <span class="s1">&#39;o&#39;</span><span class="p">}</span></code></pre></div>
+
+<p>The above is the hash which is passed into two_in_a_row. Next we ask if the values of X appears twice in the hash and if it does we select and return the first key that equals ‘ ‘ in our example it would return the integer 5. If the condition is not met the method returns false.</p>
+
+<h3>check_for_winner</h3>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># check for winner method</span>
+<span class="lineno"> 2</span> <span class="k">def</span> <span class="nf">check_for_winner</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">squares</span><span class="p">)</span>
+<span class="lineno"> 3</span>   <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="n">l</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">squares</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">==</span> <span class="n">X</span><span class="p">}</span> <span class="p">}</span>
+<span class="lineno"> 4</span>     <span class="nb">puts</span> <span class="s2">&quot;player WINS!!!&quot;</span>
+<span class="lineno"> 5</span>     <span class="kp">true</span>
+<span class="lineno"> 6</span>   <span class="k">elsif</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="n">l</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">squares</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">==</span> <span class="n">O</span><span class="p">}</span> <span class="p">}</span>
+<span class="lineno"> 7</span>     <span class="nb">puts</span> <span class="s2">&quot;computer wins :(&quot;</span>
+<span class="lineno"> 8</span>     <span class="kp">true</span>
+<span class="lineno"> 9</span>   <span class="k">end</span>
+<span class="lineno">10</span> <span class="k">end</span></code></pre></div>
+
+<p>In order for us to check if a player has 3 in a row we need to pass in the arrays in WINNING_LINES and the board_squares. Lines 3 to 5 and lines 6 to 8 essentially do the same thing in as much as one tests to see if player has won and the second tests to see if the computer has won and outputs a message if either is true.</p>
+
+<p>So lets look at the first in detail.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">line</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="n">l</span><span class="o">.</span><span class="n">all?</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="o">|</span> <span class="n">squares</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">==</span> <span class="n">X</span><span class="p">}</span> <span class="p">}</span></code></pre></div>
+
+<p>line is going to be our WINNING_LINES array and I am using the .find method to iterate through each array (l), and if all the elements in that array equal ‘x’ then it is true and the block is executed:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">puts</span> <span class="s2">&quot;player WINS!!!&quot;</span>
+<span class="kp">true</span></code></pre></div>
+
+<h3>The game loop</h3>
+
+<p>Now we have all of the methods and constants our game requires to function lets call them in to our game loop. </p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="c1"># play again?</span>
+<span class="lineno"> 2</span> <span class="n">play_again</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="k">while</span> <span class="n">play_again</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span>   <span class="c1"># initialize the empty hash that will store the board squares</span>
+<span class="lineno"> 7</span>   <span class="n">board_squares</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">2</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">3</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">4</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">5</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">6</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">7</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">8</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">,</span><span class="mi">9</span> <span class="o">=&gt;</span> <span class="s2">&quot; &quot;</span><span class="p">}</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span>   <span class="c1"># players stored in array so player can be chosen at random</span>
+<span class="lineno">10</span>   <span class="n">players</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;player1&quot;</span><span class="p">,</span> <span class="s2">&quot;player2&quot;</span><span class="o">]</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span>   <span class="c1"># setting the who goes first variable</span>
+<span class="lineno">13</span>   <span class="n">goes_first</span> <span class="o">=</span> <span class="n">players</span><span class="o">.</span><span class="n">sample</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span>   <span class="c1"># show players the empty board</span>
+<span class="lineno">16</span>   <span class="n">draw_board</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">17</span> 
+<span class="lineno">18</span>   <span class="c1"># Conditional that checks which loop to execute: player 1 or player 2</span>
+<span class="lineno">19</span>   <span class="k">if</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player1&#39;</span>
+<span class="lineno">20</span>     <span class="k">begin</span>
+<span class="lineno">21</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">22</span>       <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">23</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">24</span>       <span class="n">player2</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">25</span>     <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno">26</span>   <span class="k">elsif</span> <span class="n">goes_first</span> <span class="o">==</span> <span class="s1">&#39;player2&#39;</span>
+<span class="lineno">27</span>     <span class="k">begin</span>
+<span class="lineno">28</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">29</span>       <span class="n">player2</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">30</span>       <span class="k">break</span> <span class="k">if</span> <span class="n">check_for_winner</span><span class="p">(</span><span class="no">WINNING_LINES</span><span class="p">,</span> <span class="n">board_squares</span><span class="p">)</span> <span class="o">==</span> <span class="kp">true</span>
+<span class="lineno">31</span>       <span class="n">player1</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span>
+<span class="lineno">32</span>     <span class="k">end</span> <span class="k">until</span> <span class="n">available_squares</span><span class="p">(</span><span class="n">board_squares</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+<span class="lineno">33</span>   <span class="k">end</span>
+<span class="lineno">34</span> 
+<span class="lineno">35</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">36</span>   <span class="nb">puts</span> <span class="s2">&quot;GAME OVER&quot;</span>
+<span class="lineno">37</span> 
+<span class="lineno">38</span>   <span class="c1"># play again?</span>
+<span class="lineno">39</span>   <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span>
+<span class="lineno">40</span>   <span class="nb">puts</span> <span class="s2">&quot;Play again? (y/n)&quot;</span>
+<span class="lineno">41</span>   <span class="n">play_again</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+<span class="lineno">42</span> <span class="k">end</span></code></pre></div>
+
+<p>We covered up to line 19 in part 1. Assuming that player1 goes first (it’s the same for player2) we then go to line 20 where our begin end until starts. First off on line 21 we check to see if check_for_winner is true and if it is we break out and end game. If it is not true the player1 method is invoked and after that we check to see if check_for_winner is true again. We break if it is and we move on to player2 method if it is not. We continue this loop until check_for_winner is true or no are no available squares left.</p>
+
+<h2>Tidying up and tweaks</h2>
+<p>The ever helpfull guys over on the #ruby channel at irc made the following observations that I’ve duly corrected.</p>
+
+<ul>
+  <li>Don’t reassign constants in a loop, they should be constant values so put them at top of the script</li>
+  <li>else; false; end is equiv to else; return false; end as its the last expression of a method so no need for the return</li>
+  <li>General indentation that I’d missed</li>
+  <li>I orignally named my two_in_a_row method two_in_a_row?. You should only use a ‘?’ if your method is going to return a boolean and because it often returns a value the question mark should be omitted</li>
+</ul>
+
+<h3>Thanks:</h3>
+<p>Chris, Albert and Brandon at Tealeaf for reading and running my code and making suggestions for improvement and thanks Chris for writing the neat little two_in_a_row method and help me understand what was going on there. Hanmac, tobiasvl, jhass, shevy &amp; workmad3 and the #ruby irc channel in general for always being on hand to help out without ever seeming to want anything in return.</p>
+
+
+  </article>
+
+</div>
+      </div>
+    </div>
+    
+        <div id="disqus_thread" class="wrap"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'jheg'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    
+    <footer class="site-footer">
+  <div class="wrap">
+
+    <h2 class="footer-heading">Jason Hegarty learning to code in ruby</h2>
+    <div class="profile_pic"><img src="/assets/me.png"></div>
+
+    <div class="footer-col-1 column">
+      <ul>
+        <li>Jason Hegarty learning to code in ruby</li>
+        <li><a href="mailto:jason@jheg.co.uk">jason@jheg.co.uk</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col-2 column">
+      <ul>
+        <li>
+          <a href="https://github.com/jheg">
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            <span class="username"></span>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/jheg_">
+            <span class="icon twitter">
+              <svg version="1.1" class="twitter-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill="#C2C2C2" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27
+                c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767
+                c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206
+                C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271
+                c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469
+                c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+            <span class="username"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col-3 column">
+      <p class="text">Documenting my path to learning the ruby language and ruby on rails from absolute beginner. </p>
+    </div>
+
+  </div>
+
+</footer>
+
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'jheg'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

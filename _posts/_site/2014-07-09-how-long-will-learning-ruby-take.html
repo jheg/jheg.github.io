@@ -1,0 +1,52 @@
+<p>The structure of the Tealeaf bootcamp course I’m taking is split into 3 modules each I’m told is progressively harder than the previous. I am on the first module ‘Introduction to Ruby and Web Development’ which is split into a pre course followed by 4 lessons.</p>
+
+<p>I had a bit of a moment today which made me think that although I’m not in the classroom environment a self paced online course may actually be a better option anyway. I ran into a problem where I was just struggling to understand a peice of code I wrote:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="n">words</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;tied&quot;</span><span class="p">,</span> <span class="s2">&quot;evil&quot;</span><span class="p">,</span> <span class="s2">&quot;dome&quot;</span><span class="p">,</span>
+<span class="lineno"> 2</span>          <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;live&quot;</span><span class="p">,</span> <span class="s2">&quot;fowl&quot;</span><span class="p">,</span> <span class="s2">&quot;veil&quot;</span><span class="p">,</span> <span class="s2">&quot;wolf&quot;</span><span class="p">,</span> 
+<span class="lineno"> 3</span>          <span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;vile&quot;</span><span class="p">,</span> <span class="s2">&quot;edit&quot;</span><span class="p">,</span> <span class="s2">&quot;tide&quot;</span><span class="p">,</span> <span class="s2">&quot;flow&quot;</span><span class="p">,</span> <span class="s2">&quot;neon&quot;</span><span class="o">]</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="n">words</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">word</span><span class="o">|</span>
+<span class="lineno"> 8</span>   <span class="n">key</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sr">//</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">join</span>
+<span class="lineno"> 9</span>   <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key?</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="lineno">10</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="n">word</span>
+<span class="lineno">11</span>   <span class="k">else</span>
+<span class="lineno">12</span>     <span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">word</span><span class="o">]</span>
+<span class="lineno">13</span>   <span class="k">end</span>
+<span class="lineno">14</span> <span class="k">end</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="n">result</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span>
+<span class="lineno">17</span>   <span class="nb">puts</span> <span class="s2">&quot;--------&quot;</span>
+<span class="lineno">18</span>   <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="lineno">19</span> <span class="k">end</span></code></pre></div>
+
+<p>Basically the above code is taking the letters from each string in the ‘words’ array, sorting them in alphabtical order as an anagram and then adding them to a hash. For example the string ‘none’ is first split as ‘enno’ and then the program checks to see if the key ‘enno’ already exists and if it does adds the word ‘none’ to that key. If the key doesn’t exist it will create a new key using the key and then asign ‘none’ to the newly created key. phew!</p>
+
+<p>The output looks something like this:</p>
+
+<p>——–<br />
+demo: [“demo”, “dome”, “mode”]<br />
+——–<br />
+enno: [“none”, “neon”]<br />
+——–<br />
+deit: [“tied”, “diet”, “edit”, “tide”]<br />
+——–<br />
+eilv: [“evil”, “live”, “veil”, “vile”]<br />
+——–<br />
+flow: [“fowl”, “wolf”, “flow”]<br /></p>
+
+<p>I understood everything except the else conditional starting on line 25. Thanks to the friendly folk in the #ruby irc channel it was explained to me that:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">result</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">word</span><span class="o">]</span></code></pre></div>
+
+<p>looks to see if key already exists and if it doesn’t it will create it and then asign word to it.</p>
+
+<h2>Taking time to understand before moving on</h2>
+<p>Even though I started the day planning on getting stuck into lesson 1 I spent most of my day going over the pre-course stuff a second time to make sure I didn’t miss anything the first time. I also spent a good hour or two taking the time to understand that specific peice of code. </p>
+
+<p>Maybe if I was in the classroom environment there would have been a pressure to move on to keep pace with the course and I might have felt that I was moving on before I was ready. On the other hand maybe one of the tutors would have sat with me until I understood fully the code and it would only have held me up for 20 minutes. </p>
+
+<h2>Thanks to:</h2>
+<p>Each time I post I’ll aim to thank anyone that has helped me along the way. Today workmad3 DefV &amp; <a href="http://apeiros.me/">apeiros</a> helped me in the ruby channel on irc. I was struggling to understand the syntax for adding a key and a value based on a conditional if else statement. </p>

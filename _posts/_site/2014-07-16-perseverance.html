@@ -1,0 +1,67 @@
+<p>I had the following exercise to complete as part of my pre course at Tealeaf:</p>
+
+<p class="question">Create the data structure that you created in the previous example for Joe Smith using loops instead of assignment. Some helpful methods might be the Array shift and first method.</p>
+
+<p>This was the solution:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">contact_data</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;joe@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;123 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span> 
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Joe Smith&quot;</span> <span class="o">=&gt;</span> <span class="p">{}}</span> 
+<span class="n">fields</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:email</span><span class="p">,</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">:phone</span><span class="o">]</span> 
+
+<span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="nb">hash</span><span class="o">|</span> 
+  <span class="n">fields</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span> 
+    <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">.</span><span class="n">shift</span> 
+  <span class="k">end</span> 
+<span class="k">end</span></code></pre></div>
+
+<p>I wanted to know if this still worked if there was more than one pair in the hash and more elements in the contact_data array. </p>
+
+<p>I changed the hash and array as follows:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">contacts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Joe Smith&quot;</span> <span class="o">=&gt;</span> <span class="p">{},</span> <span class="s2">&quot;Jason Hegarty&quot;</span> <span class="o">=&gt;</span> <span class="p">{},</span> <span class="s2">&quot;Vic Rance&quot;</span> <span class="o">=&gt;</span> <span class="p">{}}</span> 
+<span class="n">contact_data</span> <span class="o">=</span> <span class="o">[</span>
+ <span class="o">[</span><span class="s2">&quot;joe@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;123 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span><span class="p">,</span>
+ <span class="o">[</span><span class="s2">&quot;jason@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;124 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span><span class="p">,</span>
+ <span class="o">[</span><span class="s2">&quot;vic@email.com&quot;</span><span class="p">,</span> <span class="s2">&quot;125 Main st.&quot;</span><span class="p">,</span> <span class="s2">&quot;555-123-4567&quot;</span><span class="o">]</span>
+<span class="o">]</span></code></pre></div>
+
+<p>but this didn’t work and just assigned nil to each of the keys in the 2nd and 3rd hash pair.</p>
+
+<p>I tried another way but it only worked when there are two pairs in the hash so I needed to find another way. I needed to somehow check to see if the first array was empty and if it was delete it from the array before looping through once more. I headed on over to ruby docs and looked through the available array classes and re wrote my program:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span><span class="nb">hash</span><span class="o">|</span>
+    <span class="n">fields</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span>
+        <span class="k">if</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">empty?</span>
+          <span class="n">contact_data</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">contact_data</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+          <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">shift</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+          <span class="nb">puts</span> <span class="n">contact_data</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>  
+        <span class="k">else</span>
+          <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">shift</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+          <span class="nb">puts</span> <span class="n">contact_data</span>
+          <span class="nb">puts</span> <span class="s2">&quot;-----&quot;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">contacts</span></code></pre></div>
+
+<p>Problem fixed! The puts were only present for the purpose of me checking the state of contact_data after each iteration.</p>
+
+<p>I also posted this in the course forum and Chris posted a leaner solution and giving me a sharp reminder there is much to learn in becoming proficient in ruby:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">contacts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="nb">hash</span><span class="o">|</span>
+  <span class="n">fields</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+    <span class="nb">hash</span><span class="o">[</span><span class="n">field</span><span class="o">]</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">[</span><span class="n">counter</span><span class="o">][</span><span class="n">idx</span><span class="o">]</span>
+  <span class="k">end</span>
+  <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">contacts</span></code></pre></div>
+
+<h2>Thanks to:</h2>
+<p>canton7, centrx, jhass, apeiros in the ruby channel on irc, gustavo in the campfire chat room at tealeaf and Chris on the course forum. </p>
+
