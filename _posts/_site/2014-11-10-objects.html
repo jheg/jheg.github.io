@@ -1,0 +1,81 @@
+<p>I feel slightly anxious writing about such a complex subject as object oriented programming having only been studying ruby for a short time but here goes. </p>
+
+<p>In ruby everything is an object. Programs are made up of many objects and these objects can communicate and interact with one another. </p>
+
+<p>An object has ‘states’ and ‘behaviours’. In a real world example lets say our object was a person. Our person might have a name, gender and an age (all states) and be able to speak and meet other persons (behaviours). What our person (object) is called, their age and gender is up to us and what our persons can do is also up to us because we create the blueprint for persons when we write our Person class. It might look something like this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span> <span class="k">class</span> <span class="nc">Person</span>
+<span class="lineno"> 2</span>   <span class="vc">@@total_number_of_people</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span>   <span class="kp">attr_accessor</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span><span class="p">,</span> <span class="ss">:gender</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span>   <span class="c1"># THIS IS WHERE THE STATES ARE CREATED AND STORED IN INSTANCE VARIABLES (@name, @age, @gender)</span>
+<span class="lineno"> 7</span>   <span class="c1"># THE @@total_number_of_people IS A CLASS VARIABLE (more on these in a bit)</span>
+<span class="lineno"> 8</span>   <span class="c1"># THEY ARE SET BY THE ARGS WE PASS IN DURING INSTANTIATION (more on that in a bit)</span>
+<span class="lineno"> 9</span>   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">gender</span><span class="p">)</span>
+<span class="lineno">10</span>     <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+<span class="lineno">11</span>     <span class="vi">@age</span> <span class="o">=</span> <span class="n">age</span>
+<span class="lineno">12</span>     <span class="vi">@gender</span> <span class="o">=</span> <span class="n">gender</span>
+<span class="lineno">13</span>     <span class="vc">@@total_number_of_people</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="lineno">14</span>   <span class="k">end</span>
+<span class="lineno">15</span>   
+<span class="lineno">16</span>   <span class="c1"># THIS IS AN INSTANCE METHOD</span>
+<span class="lineno">17</span>   <span class="k">def</span> <span class="nf">meets</span><span class="p">(</span><span class="n">person2</span><span class="p">)</span>
+<span class="lineno">18</span>     <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span> <span class="o">&amp;&amp;</span> <span class="n">person2</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">18</span> 
+<span class="lineno">19</span>       <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;baby&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">[</span><span class="s1">&#39;male&#39;</span><span class="p">,</span><span class="s1">&#39;female&#39;</span><span class="o">].</span><span class="n">sample</span><span class="p">)</span>
+<span class="lineno">20</span>     <span class="k">else</span>
+<span class="lineno">21</span>       <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t do that&quot;</span>
+<span class="lineno">22</span>     <span class="k">end</span>
+<span class="lineno">23</span>   <span class="k">end</span>
+<span class="lineno">24</span> 
+<span class="lineno">25</span>   <span class="c1"># ANOTHER INSTANCE METHOD</span>
+<span class="lineno">26</span>   <span class="k">def</span> <span class="nf">speak</span>
+<span class="lineno">27</span>     <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">2</span>
+<span class="lineno">28</span>       <span class="nb">puts</span> <span class="s2">&quot;I can talk!&quot;</span>
+<span class="lineno">29</span>     <span class="k">else</span>
+<span class="lineno">30</span>       <span class="nb">puts</span> <span class="s2">&quot;wha wha wha wha!&quot;</span>
+<span class="lineno">31</span>     <span class="k">end</span>
+<span class="lineno">32</span>   <span class="k">end</span>
+<span class="lineno">33</span> 
+<span class="lineno">34</span>   <span class="c1"># THIS IS A CLASS METHOD (I&#39;VE NOT MENTIONED THESE AS YET)</span>
+<span class="lineno">35</span>   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_persons</span>
+<span class="lineno">36</span>     <span class="vc">@@total_number_of_people</span>
+<span class="lineno">37</span>   <span class="k">end</span>
+<span class="lineno">38</span> 
+<span class="lineno">39</span> <span class="k">end</span></code></pre></div>
+
+<p>That is an example of how we create a class that can be instantiated to create as many objects as we like. To actually create a new person (an object or instance of the Person class) we do this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">jason</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Jason&#39;</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span><span class="p">)</span>
+<span class="n">vic</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Victoria&#39;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">)</span></code></pre></div>
+
+<p>So now I have created me and my girlfiend Victoria and stored us in variables jason and vic. Just like real people jason and vic can interact and magic things can happen when people interact. If you look back on the Person class we wrote we can see just what behaviour me and Vic can get up to. We can also check the worlds population using the class methods we created that in turns returns the class variable we created.</p>
+
+<h4>CLASS VARIABLES AND CLASS METHODS</h4>
+<p>Already our God like Person class can do some amazing stuff like create people and allow them to do things but our Person class can also have a sense of self too. What I mean is it can keep track of things that are not specific to each object it creates like how many people it has created in total. To do that we need a class variable and a class method to call to get the information (again state and behaviour).</p>
+
+<p>To define a class variable we use two @’s like we did in our Person class above (@@total_number_of_people). To define a class method with simple prepend self. to the beginning of our method name like we did for the total_persons method. </p>
+
+<p>So now lets check the current worlds population:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">Person</span><span class="o">.</span><span class="n">total_persons</span>
+<span class="c1"># =&gt; 2</span></code></pre></div>
+
+<p>How easy was that? </p>
+
+<p>OK back to our objects - and by the way our Person class itself is an object and it was created from the class Class (Lets move on). We now have a world population of 2 and those 2 people are objects (jason and vic). jason and vic and interact because we made it so in our class with the instance method meets. This method is almost as amazing as the Person class itself as it too creates new life so long as certain conditions are met. We call it like this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">baby1</span> <span class="o">=</span> <span class="n">jason</span><span class="o">.</span><span class="n">meets</span><span class="p">(</span><span class="n">vic</span><span class="p">)</span></code></pre></div>
+
+<p>This is simple a variable called baby1 which is assigned whatever the meets method returns and in this case its a brand new baby (a new object).</p>
+
+<h4>WHY DO WE NEED OBJECTS?</h4>
+<p>As the worlds population grows and we start to evolve beyond just breeding and speaking our program becomes more complex. For instance not every one speaks English and even for those that do there are many different regional accents and add to that the fact that each persons vocabulary is likely to be different depending on their age and you soon realise that the human race is incredibly complex. Now imagine if we didn’t have our wonderful Person class where we centralize and group many of the elements that make up what a person. Without the Perosn class creating new people would create a huge amount of repetitive code and if we wanted the human race to evolve a third rear facing ear we would need to change every single person in the world one by one.</p>
+
+<p>That’s about as much as I feel comfortable in talking about regarding OO at the moment.</p>
+
+<h4>A bit more on Object Oriented</h4>
+<p><a href="http://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a> likened it to a cellular metaphor. Each object (not class) is a cell. It can do some stuff internally, but only very simple things. In order to collaborate with other cells, it sends out a message and cells that are interested in that message perform their actions when they receive it.</p>
+
+<p>A <a href="http://c2.com/cgi/wiki?AlanKaysDefinitionOfObjectOriented">short read</a> of Alan Kays definition of Object Oriented.</p>
+
