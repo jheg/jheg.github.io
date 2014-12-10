@@ -78,7 +78,7 @@ Person.total_persons
 
 How easy was that? 
 
-OK back to our objects - and by the way our Person class itself is an object and it was created from the class Class (Lets move on). We now have a world population of 2 and those 2 people are objects (jason and vic). jason and vic and interact because we made it so in our class with the instance method meets. This method is almost as amazing as the Person class itself as it too creates new life so long as certain conditions are met. We call it like this:
+OK back to our objects - and by the way our Person class itself is an object and it was created from the class Class (Lets move on). We now have a world population of 2 and those 2 people are objects (jason and vic). jason and vic can interact because we made it so in our class with the instance method meets. This method is almost as amazing as the Person class itself as it too creates new life so long as certain conditions are met. We call it like this:
 
 {% highlight ruby %}
 baby1 = jason.meets(vic)
