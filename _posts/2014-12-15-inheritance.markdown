@@ -11,7 +11,7 @@ This post assumes you understand how to create a class and what a class is.
 
 <h4>What's inheritance?</h4>
 
-With the exception of BasicObject ( The uppermost class in Ruby ) all classes inherit from a superclass. To understand this better lets create two initial classes:
+With the exception of <span class="mono">BasicObject</span> ( The uppermost class in Ruby ) all classes inherit from a superclass. To understand this better lets create two initial classes:
 
 {% highlight ruby linenos %}
 
@@ -52,23 +52,23 @@ jason.can_drive # => "I can probably drive a car at some point in my life"
 
 Clearly we can see that whilst the living method was defined in the parent class our Human object still has access to it, due to inheritance. 
 
-So hopefully that's pretty straight forward at this stage but if we dig a little deeper we can very quickly begin to understand how some of the things we write in ruby just seem to happen. For example if I call puts on my Human object look what happens:
+So hopefully that's pretty straight forward at this stage but if we dig a little deeper we can very quickly begin to understand how some of the things we write in ruby just seem to happen. For example if I call <span class="mono">puts</span> on my Human object look what happens:
 
 {% highlight ruby %}
 puts jason # => <Human:0x000001020133f0>
 {% endhighlight %}
 
-In this example I've called the to_s method on my Human class jason using 'puts', but if I look in the classes I created I didn't define a to_s method so where did my object find that method and what was it doing outside of Human and Animal?
+In this example I've called the <span class="mono">to_s</span> method on my Human class jason using <span class="mono">puts</span>, but if I look in the classes I created I didn't define a <span class="mono">to_s</span> method so where did my object find that method and what was it doing outside of Human and Animal?
 
-It was looking up the inheritance chain just as the Human class did when I called jason.living. First of all my object looked for the living method in Human and when it didn't find it there it looked in its parent class Animal and found it. So what would have happened if it wasn't there? Well it would have looked in Animals parent class (superclass) which happens to be Object and if it hadn't have found the method there it would have looked in the parent class of Object which is the end of the line for this line of inheritance as it reaches the empty class BasicObject which would have returned nil and thrown a noMethod error.
+It was looking up the inheritance chain just as the Human class did when I called <span class="mono">jason.living</span>. First of all my object looked for the living method in Human and when it didn't find it there it looked in its parent class Animal and found it. So what would have happened if it wasn't there? Well it would have looked in Animals parent class (superclass) which happens to be <span class="mono">Object</span> and if it hadn't have found the method there it would have looked in the parent class of <span class="mono">Object</span> which is the end of the line for this line of inheritance as it reaches the empty class <span class="mono">BasicObject</span> which would have returned nil and thrown a noMethod error.
 
-But when we called puts on jason it must have found the to_s method somewhere and indeed it did, inside of Object. What this essentially means is that when we create a new class we automatically inherit all of the methods up the chain. To find out just how many are inherited do:
+But when we called <span class="mono">puts</span> on jason it must have found the <span class="mono">to_s</span> method somewhere and indeed it did, inside of <span class="mono">Object</span>. What this essentially means is that when we create a new class we automatically inherit all of the methods up the chain. To find out just how many are inherited do:
 
 {% highlight ruby %}
 Human.instance_methods.count # => 61
 {% endhighlight %}
 
-We can go a step further and see what methods our class has access to by doing Human.instance_methods
+We can go a step further and see what methods our class has access to by doing <span class="mono">Human.instance_methods</span>
 
 So there we have a great example of inheritance at work.
 
