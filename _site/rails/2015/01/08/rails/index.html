@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>About</title>
+    <title>The structure of a Rails app. Part 1</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Documenting my path to learning the ruby language and ruby on rails from absolute beginner. ">
-    <link rel="canonical" href="http://jheg.co.uk/about/">
+    <link rel="canonical" href="http://jheg.co.uk/rails/2015/01/08/rails/">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css">
@@ -66,17 +66,113 @@
       <div class="post">
 
   <header class="post-header">
-    <h1>About</h1>
+    <h1>The structure of a Rails app. Part 1</h1>
+    <p class="meta">Jan 8, 2015</p>
   </header>
 
   <article class="post-content">
-  <p>Seeing if I’m capable of learning to program using the ruby language. I have no prior programming experience but have written a fair amount of html and css. I’ve been exposed to javascript and php but I couldn’t write anything in it. </p>
+  <p><span class="terminal">$ cd dev</span><br />
+<span class="terminal">$dev rails new got_to_do_app</span></p>
+
+<h2>Step 1 - What my app will do</h2>
+
+<p>The plan is to build an app that simply allows users to write a todo list. There are many features I intend to implement but initially I will just get a basic version up and running and then later add further functionality to it. This will be my test app - my Rails playground.</p>
+
+<p>The initial feature set will allow a user to:</p>
+<ul>
+  <li>Register and Log in<br />A User will comprise a name, email and mobile number</li>
+  <li>Add a ToDo task<br />A ToDo task will include a title, description, deadline and timestamps of creation date and updated date</li>
+  <li>Comment on Todo items <br />A Comment will include a comment</li>
+  <li>Assign categories to Todo items<br />A category will include a name</li>
+</ul>
+
+<p>Future iterations will include the ability to:</p>
+<ul>
+  <li>Add someone to a Todo item</li>
+  <li>Send email and possibly sms notifications</li>
+</ul>
+
+<h2>Step 2 - Building out the database and associations</h2>
+<p>Rails apps work on a Model, View, Controller principle or MVC for short. This breaks down the tasks of the apllication into three parts each with their own job. The View renders and sends a completed webpage from the server to the user once it has gathered all the information it needs from the database, via the Model, which they get from the Controller. It’s easy to visualize with the diagram below.</p>
+
+<p><img src="/assets/model_view_controller_in_rails.png" width="300" alt="picture of the model view controller workflow in Rails" /></p>
+
+<p>For this post we are focusing on the Model and the Database and we’ll leave controllers and views until a later post.</p>
+
+<p>Before creating the tables in a database to contain the data we need, we need to visualize what we want to store and how our data relates to each other. </p>
+
+<p>You can do this on a peice of paper just to sketch out the idea. </p>
+
+<p><img src="/assets/rails_app_simple_entity_relationship_diagram.png" width="500" alt="picture of an entity relationship diagram for a small rails app" /></p>
+
+<p>The elements of the app have been split into 4 tables plus a join table ( I’ll explain the join table shortly ). This diagram helps us with four tasks when building our database tables and building the relationships between each table in the database. </p>
+
+<ol>
+  <li>The boxes represent each table in our database</li>
+  <li>The columns in a table are the elements within each box ( id, name, created_at… )</li>
+  <li>The lines that connect the boxes show relationships ( Associations )</li>
+  <li>Establishes where we need foreign keys</li>
+</ol>
+
+<h4>Foreign Keys</h4>
+<p>We need two things to make an association, one at the database layer and the other in the model layer. Lets suppose we have created a User called Charlie. Charlie creates a todo item with a title of ‘Do the shopping on way home’ and another one with the title ‘Remember to clean my room’. Already we can see that whilst Charlie ( User ) can have many Todo items a Todo item can only have and belong to one User. In order to create this behaviour in the database we must include what is called a ‘foreign key’ in the table that is on the one side of the agreement - the todos table. </p>
+
+<p>The foreign key MUST be named correctly in order for the link to work. It must start with the singular version of the table name followed by an underscore and id like so: user_id ( shown in the diagram above ). Rails will assume that there is a table named users with a column name of id and this will provide the first part of the link.</p>
+
+<p>To summarise:</p>
+<ul>
+<li>A User has many todos and has many comments</li>
+<li>A Todo belongs to a User and has many comments and has many categories</li>
+<li>A Comment belongs to a User and belongs to a Todo</li>
+<li>A Category has many todos</li>
+</ul>
+
+<p>We can pretty much cover all of these points the same way that we did the User-Todo relationship using the foreign key but there is one relationship that doesn’t follow the one to many (1:M) pattern. A Todo can have many categories and a Category can have many todos. This is called a many to many (M:M) association and requires a <em>join table</em> to deal with this type of relationship. </p>
+
+<p>A join table here does the job of connecting the todos table and the categories table. The foreign keys reside in the join table and create a 1:M association from the join table to both the todos table and the categories table. </p>
+
+<p>In part 2 we will build the tables and the models.</p>
+
+<!-- <h4>Creating tables with migration files</h4>
+<span class="terminal">$ rails generate migration create_users.rb</span>
+
+
+
+
+
+The second part of the link happens when we create the object model. 
+
+
+
+
+
+
+ALL IS NOT LOST:
+If you accidently forgot to add a column you can simply create a new migration. I forgot to add an sms column to users so ...
+ -->
+
 
   </article>
 
 </div>
       </div>
     </div>
+    
+        <div id="disqus_thread" class="wrap"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'jheg'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
     
     <footer class="site-footer">
   <div class="wrap">

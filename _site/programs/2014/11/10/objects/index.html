@@ -12,7 +12,16 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/style.css">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+      ga('create', 'UA-57731704-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
 </head>
 
 
@@ -113,7 +122,7 @@
 <div class="highlight"><pre><code class="ruby"><span class="n">jason</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Jason&#39;</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="s1">&#39;male&#39;</span><span class="p">)</span>
 <span class="n">vic</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Victoria&#39;</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">)</span></code></pre></div>
 
-<p>So now I have created me and my girlfiend Victoria and stored us in variables jason and vic. Just like real people jason and vic can interact and magic things can happen when people interact. If you look back on the Person class we wrote we can see just what behaviour me and Vic can get up to. We can also check the worlds population using the class methods we created that in turns returns the class variable we created.</p>
+<p>So now I have created me and my girlfiend Victoria and stored us in variables jason and vic. Just like real people jason and vic can interact and magic things can happen when people interact. If you look back on the Person class we wrote we can see just what behaviour me and Vic can get up to. We can also check the worlds population using the class method we created that in turn returns the class variable we created.</p>
 
 <h4>CLASS VARIABLES AND CLASS METHODS</h4>
 <p>Already our God like Person class can do some amazing stuff like create people and allow them to do things but our Person class can also have a sense of self too. What I mean is it can keep track of things that are not specific to each object it creates like how many people it has created in total. To do that we need a class variable and a class method to call to get the information (again state and behaviour).</p>
